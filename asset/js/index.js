@@ -100,10 +100,9 @@ function FilterEntry(mCotainer) {
         this.hasFilter = this.AllFilter['MainAttribute'] != 'none' || this.AllFilter['SubAttribute'] != 'none'
             || this.AllFilter['Type'] != 'none' || this.hasFilter_kakusei;
 
-        resultArea.export();
+        resultArea.search();
     }
     this.test = (mMon) => {
-        let M = mMon;
         let step = 0;
         if (this.hasFilter) {
             if (this.AllFilter['MainAttribute'] != 'none') {
@@ -116,7 +115,7 @@ function FilterEntry(mCotainer) {
                 ;
             } else { step += 1; }
             if (this.hasFilter_kakusei) {
-                let M_kakusei = M['Kakusei'];
+                let M_kakusei = [].concat(mMon['Kakusei']);
                 let filter = [];
                 this.AllFilter['Kakusei'].forEach((e, i) => {
                     if (e == '0') return false;
@@ -125,12 +124,8 @@ function FilterEntry(mCotainer) {
                         filter.push(KAKUSEI_N[i]);
                     }
                 })
-                console.log('M', M_kakusei);
-                console.log('f1', filter);
-
                 for (let i = 0, j = M_kakusei.length; i < j; i++) {
                     for (let m = 0, n = filter.length; m < n; m++) {
-                        console.log(`map: ${i}:${M_kakusei[i]}, ${m}:${filter[m]}`);
                         if (M_kakusei[i] == filter[m]) {
                             M_kakusei[i] = '';
                             filter[m] = '';
@@ -138,8 +133,6 @@ function FilterEntry(mCotainer) {
                         }
                     }
                 }
-
-                console.log('f2', filter);
                 if (filter.every((val) => { return val == ''; })) { step += 1 };
             } else { step += 1; }
             return step == 4;

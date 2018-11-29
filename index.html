@@ -23,11 +23,11 @@
     </script>
 </head>
 
-<body>
+<body class='bg-dark text-light'>
     <div class='overlay justify-content-center align-items-center' tabindex='-1'>
         <div class='loading-ring'></div>
     </div>
-    <nav class='navbar shadow navbar-light bg-light'>
+    <nav class='navbar shadow'>
         <a class='navbar-brand'>【パズドラ】Skill Database</a>
     </nav>
 
@@ -968,7 +968,7 @@
         <div class='row align-items-center'>
             <div class='puretext mb-auto'><span>結果：</span></div>
             <div class='col'>
-                <div id='resultconfig' class='puretext bg-light border border-info rounded-top flex-wrap'>
+                <div id='resultconfig' class='puretext border border-info rounded-top flex-wrap'>
                     <div class='row align-items-center flex-fill'>
                         <div class='col'></div>
                         <div class='w-25 mr-2'>
@@ -1032,7 +1032,7 @@
 <!-- /Result Area Min template 結束 -->
 <!-- Result Area Detail template 開始 -->
     <template id='result-area-detail-tpl'>
-        <div class='sort-item card mb-1 pl-1 pr-2 w-100 flex-row align-items-center' data-number='{{DataNumber}}' data-rare='{{DataRare}}' data-skillcdmin='{{DataSkillCDMin}}' data-skillcdmax='{{DataSkillCDMax}}'>
+        <div class='sort-item card mb-1 pl-1 pr-2 w-100 flex-row align-items-center border-white bg-transparent' data-number='{{DataNumber}}' data-rare='{{DataRare}}' data-skillcdmin='{{DataSkillCDMin}}' data-skillcdmax='{{DataSkillCDMax}}'>
             <div class='card-img charpic mx-1'></div>
             <div class='card-text d-flex px-3 flex-column flex-fill'>
                 <div class='row border-bottom'>

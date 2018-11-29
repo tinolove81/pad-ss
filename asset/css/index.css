@@ -54,6 +54,7 @@ body::before {
     height: 50px;
     border: 2px solid #ACF;
     border-radius: 5%;
+    background: #fff;
 }
 .charicon.charalt::before {
     content : attr(data-name);

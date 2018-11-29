@@ -29,50 +29,50 @@
         <a class='navbar-brand'>【パズドラ】Skill Database</a>
     </nav>
 
-    <div class='container p-3 shadow rounded'>
-        <div class='row my-2 align-items-center'>
+    <div id='filterentry' class='container px-3 pb-2'>
+        <div id='filter_mainattr' class='row mt-2 align-items-center'>
             <div class='puretext'><span>主属性：</span></div>
             <div class='col'>
                 <div class='btn-group btn-group-sm btn-group-toggle' data-toggle='buttons'>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='none'/><i class='icon-none'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='fire'/><i class='icon-drop id-fire'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='water'/><i class='icon-drop id-water'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='wood'/><i class='icon-drop id-wood'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='light'/><i class='icon-drop id-light'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='dark'/><i class='icon-drop id-dark'></i></label>
+                    <label class='btn btn-outline-primary active'><input type='radio' name='MonsterAttr_A' value='none' autocomplete='off' checked/><i class='icon-none'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='fire' autocomplete='off'/><i class='icon-drop id-fire'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='water' autocomplete='off'/><i class='icon-drop id-water'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='wood' autocomplete='off'/><i class='icon-drop id-wood'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='light' autocomplete='off'/><i class='icon-drop id-light'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='dark' autocomplete='off'/><i class='icon-drop id-dark'></i></label>
                 </div>
             </div>
         </div>
-        <div class='row mb-2 align-items-center'>
+        <div id='filter_subattr' class='row mt-2 align-items-center'>
             <div class='puretext'><span>副属性：</span></div>
             <div class='col'>
                 <div class='btn-group btn-group-sm btn-group-toggle' data-toggle='buttons'>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='none'/><i class='icon-none'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='fire'/><i class='icon-drop id-fire'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='water'/><i class='icon-drop id-water'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='wood'/><i class='icon-drop id-wood'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='light'/><i class='icon-drop id-light'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='dark'/><i class='icon-drop id-dark'></i></label>
+                    <label class='btn btn-outline-primary active'><input type='radio' name='MonsterAttr_B' value='none' autocomplete='off' checked/><i class='icon-none'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='fire' autocomplete='off'/><i class='icon-drop id-fire'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='water' autocomplete='off'/><i class='icon-drop id-water'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='wood' autocomplete='off'/><i class='icon-drop id-wood'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='light' autocomplete='off'/><i class='icon-drop id-light'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='dark' autocomplete='off'/><i class='icon-drop id-dark'></i></label>
                 </div>
             </div>
         </div>
-        <div class='row mb-2 align-items-center'>
+        <div id='filter_type' class='row mt-2 align-items-center'>
             <div class='puretext'><span>タイプ：</span></div>
             <div class='col'>
                 <div class='btn-group btn-group-sm btn-group-toggle' data-toggle='buttons'>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='none'/><i class='icon-none'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='god'/><i class='icon-type it-god'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='dragon'/><i class='icon-type it-dragon'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='devil'/><i class='icon-type it-devil'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='machine'/><i class='icon-type it-machine'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='balance'/><i class='icon-type it-balance'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='attack'/><i class='icon-type it-attack'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='vitality'/><i class='icon-type it-vitality'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='recovery'/><i class='icon-type it-recovery'></i></label>
+                    <label class='btn btn-outline-primary active'><input type='radio' name='MonsterType' value='none' autocomplete='off' checked/><i class='icon-none'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='god' autocomplete='off'/><i class='icon-type it-god'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='dragon' autocomplete='off'/><i class='icon-type it-dragon'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='devil' autocomplete='off'/><i class='icon-type it-devil'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='machine' autocomplete='off'/><i class='icon-type it-machine'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='balance' autocomplete='off'/><i class='icon-type it-balance'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='attack' autocomplete='off'/><i class='icon-type it-attack'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='vitality' autocomplete='off'/><i class='icon-type it-vitality'></i></label>
+                    <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='recovery' autocomplete='off'/><i class='icon-type it-recovery'></i></label>
                 </div>
             </div>
         </div>
-        <div class='row mb-2 align-items-center'>
+        <div id='filter_kakusei' class='row mt-2 align-items-center'>
             <div class='d-flex px-3 align-items-center mb-auto'><span>覚醒スキル：</span></div>
             <div class='col'>
                 <div class='btn-group btn-group-sm'>
@@ -909,10 +909,12 @@
                 </div>
             </div>
         </div>
-        <div class='row mb-2 align-items-center'>
+    </div>
+    <div class='container px-3 pb-2'>
+        <div class='row align-items-center'>
             <div class='puretext mb-auto'><span>スキル検索：</span></div>
             <div class='col'>
-                <div id='rulelibrary' class='mb-2'>
+                <div id='rulelibrary' class='mb-1'>
                     <div id='ruletips' class='puretext mb-1 border border-info rounded'><span>スキル検索条件を作成する</span></div>
                 </div>
                 <div class='px-3 py-2 border border-warning rounded'>
@@ -920,21 +922,21 @@
                         <div class='puretext'><span>変換元：</span></div>
                         <div class='col'>
                             <div class='btn-group btn-group-sm btn-group-toggle' data-toggle='buttons'>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='none'/><i class='icon-none'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='all'/><i class='icon-all'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='row'/><i class='icon-row'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='col'/><i class='icon-col'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='random'/><i class='icon-random'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='fire'/><i class='icon-drop id-fire'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='water'/><i class='icon-drop id-water'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='wood'/><i class='icon-drop id-wood'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='light'/><i class='icon-drop id-light'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='dark'/><i class='icon-drop id-dark'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='heart'/><i class='icon-drop id-heart'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='trash'/><i class='icon-drop id-trash'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='poison'/><i class='icon-drop id-poison'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='mpoison'/><i class='icon-drop id-mpoison'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='bomb'/><i class='icon-drop id-bomb'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='none' autocomplete='off'><i class='icon-none'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='all' autocomplete='off'><i class='icon-all'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='row' autocomplete='off'><i class='icon-row'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='col' autocomplete='off'><i class='icon-col'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='random' autocomplete='off'><i class='icon-random'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='fire' autocomplete='off'><i class='icon-drop id-fire'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='water' autocomplete='off'><i class='icon-drop id-water'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='wood' autocomplete='off'><i class='icon-drop id-wood'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='light' autocomplete='off'><i class='icon-drop id-light'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='dark' autocomplete='off'><i class='icon-drop id-dark'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='heart' autocomplete='off'><i class='icon-drop id-heart'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='trash' autocomplete='off'><i class='icon-drop id-trash'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='poison' autocomplete='off'><i class='icon-drop id-poison'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='mpoison' autocomplete='off'><i class='icon-drop id-mpoison'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='bomb' autocomplete='off'><i class='icon-drop id-bomb'></i></label>
                             </div>
                         </div>
                     </div>
@@ -942,16 +944,16 @@
                         <div class='puretext'><span>変換先：</span></div>
                         <div class='col'>
                             <div class='btn-group btn-group-sm btn-group-toggle' data-toggle='buttons'>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='fire'/><i class='icon-drop id-fire'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='water'/><i class='icon-drop id-water'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='wood'/><i class='icon-drop id-wood'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='light'/><i class='icon-drop id-light'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='dark'/><i class='icon-drop id-dark'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='heart'/><i class='icon-drop id-heart'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='trash'/><i class='icon-drop id-trash'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='poison'/><i class='icon-drop id-poison'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='mpoison'/><i class='icon-drop id-mpoison'></i></label>
-                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='bomb'/><i class='icon-drop id-bomb'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='fire' autocomplete='off'><i class='icon-drop id-fire'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='water' autocomplete='off'><i class='icon-drop id-water'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='wood' autocomplete='off'><i class='icon-drop id-wood'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='light' autocomplete='off'><i class='icon-drop id-light'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='dark' autocomplete='off'><i class='icon-drop id-dark'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='heart' autocomplete='off'><i class='icon-drop id-heart'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='trash' autocomplete='off'><i class='icon-drop id-trash'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='poison' autocomplete='off'><i class='icon-drop id-poison'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='mpoison' autocomplete='off'><i class='icon-drop id-mpoison'></i></label>
+                                <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='bomb' autocomplete='off'><i class='icon-drop id-bomb'></i></label>
                             </div>
                         </div>
                         <button id='btnAddRule' class='btn btn-success btn-sm ml-auto mr-3'>＋</button>
@@ -959,7 +961,9 @@
                 </div>
             </div>
         </div>
-        <div class='row mb-2 align-items-center'>
+    </div>
+    <div class='container px-3 pb-2'>
+        <div class='row align-items-center'>
             <div class='puretext mb-auto'><span>結果：</span></div>
             <div class='col'>
                 <div id='resultconfig' class='puretext bg-light border border-info rounded-top flex-wrap'>
@@ -997,6 +1001,9 @@
                 <div id='resultarea' class='puretext mb-2 py-1 border border-top-0 border-info rounded-bottom flex-wrap'></div>
             </div>
         </div>
+    </div>
+    <div class='container px-3 pb-2 rounded-bottom'>
+        <div class='row'></div>
         <div class='row mt-5'><div class='col text-right'>&#64;&#116;&#105;&#110;&#111;&#108;&#111;&#118;&#101;&#56;&#49;</div></div>
     </div>
 
@@ -1014,15 +1021,15 @@
     </script>
 <!-- /Rule template 結束 -->
 <!-- Result Area Min template 開始 -->
-    <script type='text/template' id='result-area-min-tpl'>
+    <template id='result-area-min-tpl'>
         <div class='sort-item charicon charalt' data-number='{{DataNumber}}' data-name='{{DataName}}' data-rare='{{DataRare}}' data-skillcdmin='{{DataSkillCDMin}}' data-skillcdmax='{{DataSkillCDMax}}'>
             <div class='charpic' src='' alt='img'></div>
             <div class='sortdata'>{{MonsterNumber}}</div>
         </div>
-    </script>
+    </template>
 <!-- /Result Area Min template 結束 -->
 <!-- Result Area Detail template 開始 -->
-    <script type='text/template' id='result-area-detail-tpl'>
+    <template id='result-area-detail-tpl'>
         <div class='sort-item card mb-1 pl-1 pr-2 w-100 flex-row align-items-center' data-number='{{DataNumber}}' data-rare='{{DataRare}}' data-skillcdmin='{{DataSkillCDMin}}' data-skillcdmax='{{DataSkillCDMax}}'>
             <div class='card-img charpic mx-1'></div>
             <div class='card-text d-flex px-3 flex-column flex-fill'>
@@ -1043,8 +1050,7 @@
                 </div>
             </div>
         </div>
-        
-    </script>
+    </template>
 <!-- /Result Area Detail template 結束 -->
     
     <script src='./asset/js/index.js'></script>

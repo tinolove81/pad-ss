@@ -6,7 +6,7 @@ let element = {
     'water': '水', 'wood': '木', 'light': '光', 'dark': '闇', 'heart': '回復', 'trash': '邪魔', 
     'poison': '毒', 'mpoison': '猛毒', 'bomb': '爆弾' };
     
-let kakusei_n = {
+let kakusei = {
     "HP強化": 1, "攻撃強化": 2, "回復強化": 3, "火ダメージ軽減": 4, "水ダメージ軽減": 5, "木ダメージ軽減": 6, "光ダメージ軽減": 7,
     "闇ダメージ軽減": 8, "自動回復": 9, "バインド耐性": 10, "暗闇耐性": 11, "お邪魔耐性": 12, "毒耐性": 13, "火ドロップ強化": 14,
     "水ドロップ強化": 15, "木ドロップ強化": 16, "光ドロップ強化": 17, "闇ドロップ強化": 18, "操作時間延長": 19, "バインド回復": 20,
@@ -18,7 +18,7 @@ let kakusei_n = {
     "スキルブースト+": 56, "HP80％以上強化": 57, "HP50％以下強化": 58, "L字消し軽減": 59, "L字消し攻撃": 60, "超コンボ強化": 61,
     "コンボドロップ": 62, "スキルボイス": 63, "ダンジョンボーナス": 64
 };
-let kakusei = [
+let kakusei_n = [
     "HP強化", "攻撃強化", "回復強化", "火ダメージ軽減", "水ダメージ軽減", "木ダメージ軽減", "光ダメージ軽減", "闇ダメージ軽減",
     "自動回復", "バインド耐性", "暗闇耐性", "お邪魔耐性", "毒耐性", "火ドロップ強化", "水ドロップ強化", "木ドロップ強化", "光ドロップ強化",
     "闇ドロップ強化", "操作時間延長", "バインド回復", "スキルブースト", "火属性強化", "水属性強化", "木属性強化", "光属性強化", "闇属性強化",
@@ -103,7 +103,8 @@ function FilterEntry(mCotainer) {
 
         resultArea.export();
     }
-    this.test = (monster) => {
+    this.test = (mMon) => {
+        let M = mMon;
         let step = 0;
         if (this.hasFilter) {
             if (this.AllFilter['MainAttribute'] != 'none') {
@@ -116,26 +117,31 @@ function FilterEntry(mCotainer) {
                 ;
             } else { step += 1; }
             if (this.hasFilter_kakusei) {
+                let M_kakusei = M['Kakusei'];
                 let filter = [];
                 this.AllFilter['Kakusei'].forEach((e, i) => {
                     if (e == '0') return false;
                     let n = parseInt(e);
                     for (let j = 0; j < n; j++) {
-                        filter.push(kakusei[i]);
+                        filter.push(kakusei_n[i]);
                     }
                 })
-                console.log('m', monster['Kakusei']);
-                console.log('f', filter);
-                monster['Kakusei'].map((e) => {
-                    for (let i = 0; i < filter.length; i++) {
-                        if (e == filter[i]) {
-                            console.log(i, e, filter[i], (e == filter[i]));
-                            filter.splice(i, 1);
+                console.log('M', M_kakusei);
+                console.log('f1', filter);
+
+                for (let i = 0, j = M_kakusei.length; i < j; i++) {
+                    for (let m = 0, n = filter.length; m < n; m++) {
+                        console.log(`map: ${i}:${M_kakusei[i]}, ${m}:${filter[m]}`);
+                        if (M_kakusei[i] == filter[m]) {
+                            M_kakusei[i] = '';
+                            filter[m] = '';
+                            break;
                         }
                     }
-                });
-                console.log('f', filter);
-                if (filter.length == 0) { step += 1 };
+                }
+
+                console.log('f2', filter);
+                if (filter.every((val) => { return val == ''; })) { step += 1 };
             } else { step += 1; }
             return step == 4;
         } else {
@@ -326,7 +332,7 @@ function iconKakuseiTpl(n) {
     if (n.length) {
         let tpl = [];
         for (let i = 0;i < n.length; i++) {
-            tpl.push(`<i class='icon-kakusei i-kakusei-${kakusei_n[n[i]]}'></i>`);
+            tpl.push(`<i class='icon-kakusei i-kakusei-${kakusei[n[i]]}'></i>`);
         }
         return tpl.join('');
     }

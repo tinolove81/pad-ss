@@ -1,12 +1,10 @@
-let retry = 0;
-let monster;
-let skilltag;
-let element = {
+const ELEMENT = {
     'none': '(.*)', 'all': '全', 'row': '横', 'col': '縦', 'random': '隨機', 'fire': '火',
     'water': '水', 'wood': '木', 'light': '光', 'dark': '闇', 'heart': '回復', 'trash': '邪魔', 
-    'poison': '毒', 'mpoison': '猛毒', 'bomb': '爆弾' };
+    'poison': '毒', 'mpoison': '猛毒', 'bomb': '爆弾'
+};
     
-let kakusei = {
+const KAKUSEI = {
     "HP強化": 1, "攻撃強化": 2, "回復強化": 3, "火ダメージ軽減": 4, "水ダメージ軽減": 5, "木ダメージ軽減": 6, "光ダメージ軽減": 7,
     "闇ダメージ軽減": 8, "自動回復": 9, "バインド耐性": 10, "暗闇耐性": 11, "お邪魔耐性": 12, "毒耐性": 13, "火ドロップ強化": 14,
     "水ドロップ強化": 15, "木ドロップ強化": 16, "光ドロップ強化": 17, "闇ドロップ強化": 18, "操作時間延長": 19, "バインド回復": 20,
@@ -18,7 +16,7 @@ let kakusei = {
     "スキルブースト+": 56, "HP80％以上強化": 57, "HP50％以下強化": 58, "L字消し軽減": 59, "L字消し攻撃": 60, "超コンボ強化": 61,
     "コンボドロップ": 62, "スキルボイス": 63, "ダンジョンボーナス": 64
 };
-let kakusei_n = [
+const KAKUSEI_N = [
     "HP強化", "攻撃強化", "回復強化", "火ダメージ軽減", "水ダメージ軽減", "木ダメージ軽減", "光ダメージ軽減", "闇ダメージ軽減",
     "自動回復", "バインド耐性", "暗闇耐性", "お邪魔耐性", "毒耐性", "火ドロップ強化", "水ドロップ強化", "木ドロップ強化", "光ドロップ強化",
     "闇ドロップ強化", "操作時間延長", "バインド回復", "スキルブースト", "火属性強化", "水属性強化", "木属性強化", "光属性強化", "闇属性強化",
@@ -29,22 +27,23 @@ let kakusei_n = [
     "L字消し攻撃", "超コンボ強化", "コンボドロップ", "スキルボイス", "ダンジョンボーナス"
 ];
 
+let retry = 0;
 let SearchMonster = [];
 
 let filterEntry = new FilterEntry('#filterentry');
 let ruleLibrary = new RuleLibrary('#rulelibrary', '#rule-library-tpl');
 let resultArea = new ResultArea('#resultarea', '#result-area-min-tpl', '#result-area-detail-tpl', '#resultconfig');
 
-$.getJSON('./lib/CHAR_modify.json', (data) => {
-    monster = data;
-});
-$.getJSON('./lib/TAG.json', (data) => {
-    skilltag = data;
-});
+// $.getJSON('./lib/CHAR_modify.json', (data) => {
+//     MONSTER = data;
+// });
+// $.getJSON('./lib/TAG.json', (data) => {
+//     SKILLTAG = data;
+// });
 
 (function loadDefault() {
     if (retry < 10) {
-        if (monster != undefined && skilltag != undefined) {
+        if (MONSTER != undefined && SKILLTAG != undefined) {
             $('.overlay').addClass('d-none');
         } else {
             setTimeout(loadDefault, 300);
@@ -123,7 +122,7 @@ function FilterEntry(mCotainer) {
                     if (e == '0') return false;
                     let n = parseInt(e);
                     for (let j = 0; j < n; j++) {
-                        filter.push(kakusei_n[i]);
+                        filter.push(KAKUSEI_N[i]);
                     }
                 })
                 console.log('M', M_kakusei);
@@ -173,7 +172,7 @@ function RuleLibrary(mCotainer, mTemplate) {
         let nRules = this.getTag().length;
         let A = mData.split('-')[0];
         let B = mData.split('-')[1];
-        this.AllRule['k' + nRules] = `${element[A]}轉${element[B]}`;
+        this.AllRule['k' + nRules] = `${ELEMENT[A]}轉${ELEMENT[B]}`;
         this.cotainer.append(tpl
             .replace(/{{nRules}}/g, 'k' + nRules)
             .replace('{{nRules+1}}', nRules + 1)
@@ -236,8 +235,8 @@ function ResultArea(mCotainer, mMinTemplate, mDetailTemplate, mControl) {
             let tmp = [];
             for (let i = 0; i < tag.length; i++) {
                 if (i == 0) {
-                    for (let j = 0; j < skilltag.length; j++) {
-                        let item = skilltag[j];
+                    for (let j = 0; j < SKILLTAG.length; j++) {
+                        let item = SKILLTAG[j];
                         if (new RegExp(tag[i]).test(item['tag'])) {
                             mon.push(item);
                         }
@@ -262,7 +261,7 @@ function ResultArea(mCotainer, mMinTemplate, mDetailTemplate, mControl) {
             if (this.style == 'icon') {
                 this.searchresult.forEach((e, i) => {
                     let mtpl = $(this.mtpl.contents()[1]).clone();
-                    let M = monster[e['no'] - 1 ];
+                    let M = MONSTER[e['no'] - 1 ];
                     mtpl.attr('data-number', e['no'])
                         .attr('data-name', M['Name'])
                         .attr('data-rare', M['Rare'].replace('★', ''))
@@ -274,7 +273,7 @@ function ResultArea(mCotainer, mMinTemplate, mDetailTemplate, mControl) {
             } else if (this.style == 'list') {
                 this.searchresult.forEach((e, i) => {
                     let dtpl = $(this.dtpl.contents()[1]).clone();
-                    let M = monster[e['no'] - 1 ];
+                    let M = MONSTER[e['no'] - 1 ];
                     dtpl.attr('data-number', e['no'])
                         .attr('data-rare', M['Rare'].replace('★', ''))
                         .attr('data-skillcdmin', M['ActiveSkillCD'].replace('）', '').split('（')[0])
@@ -332,7 +331,7 @@ function iconKakuseiTpl(n) {
     if (n.length) {
         let tpl = [];
         for (let i = 0;i < n.length; i++) {
-            tpl.push(`<i class='icon-kakusei i-kakusei-${kakusei[n[i]]}'></i>`);
+            tpl.push(`<i class='icon-kakusei i-kakusei-${KAKUSEI[n[i]]}'></i>`);
         }
         return tpl.join('');
     }

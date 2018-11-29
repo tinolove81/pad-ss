@@ -6,6 +6,18 @@ let element = {
     'water': '水', 'wood': '木', 'light': '光', 'dark': '闇', 'heart': '回復', 'trash': '邪魔', 
     'poison': '毒', 'mpoison': '猛毒', 'bomb': '爆弾' };
     
+let kakusei_n = {
+    "HP強化": 1, "攻撃強化": 2, "回復強化": 3, "火ダメージ軽減": 4, "水ダメージ軽減": 5, "木ダメージ軽減": 6, "光ダメージ軽減": 7,
+    "闇ダメージ軽減": 8, "自動回復": 9, "バインド耐性": 10, "暗闇耐性": 11, "お邪魔耐性": 12, "毒耐性": 13, "火ドロップ強化": 14,
+    "水ドロップ強化": 15, "木ドロップ強化": 16, "光ドロップ強化": 17, "闇ドロップ強化": 18, "操作時間延長": 19, "バインド回復": 20,
+    "スキルブースト": 21, "火属性強化": 22, "水属性強化": 23, "木属性強化": 24, "光属性強化": 25, "闇属性強化": 26, "2体攻撃": 27,
+    "封印耐性": 28, "回復ドロップ強化": 29, "マルチブースト": 30, "神キラー": 31, "マシンキラー": 32, "悪魔キラー": 33, "ドラゴンキラー": 34,
+    "回復キラー": 35, "攻撃キラー": 36, "体力キラー": 37, "バランスキラー": 38, "能力覚醒用キラー": 39, "売却用キラー": 40, "強化合成用キラー": 41,
+    "進化用キラー": 42, "コンボ強化": 43, "ガードブレイク": 44, "追加攻撃": 45, "チームHP強化": 46, "チーム回復強化": 47, "ダメージ無効貫通": 48,
+    "覚醒アシスト": 49, "超追加攻撃": 50, "スキルチャージ": 51, "バインド耐性+": 52, "操作時間延長+": 53, "雲耐性": 54, "操作不可耐性": 55,
+    "スキルブースト+": 56, "HP80％以上強化": 57, "HP50％以下強化": 58, "L字消し軽減": 59, "L字消し攻撃": 60, "超コンボ強化": 61,
+    "コンボドロップ": 62, "スキルボイス": 63, "ダンジョンボーナス": 64
+};
 let kakusei = [
     "HP強化", "攻撃強化", "回復強化", "火ダメージ軽減", "水ダメージ軽減", "木ダメージ軽減", "光ダメージ軽減", "闇ダメージ軽減",
     "自動回復", "バインド耐性", "暗闇耐性", "お邪魔耐性", "毒耐性", "火ドロップ強化", "水ドロップ強化", "木ドロップ強化", "光ドロップ強化",
@@ -88,6 +100,8 @@ function FilterEntry(mCotainer) {
         });
         this.hasFilter = this.AllFilter['MainAttribute'] != 'none' || this.AllFilter['SubAttribute'] != 'none'
             || this.AllFilter['Type'] != 'none' || this.hasFilter_kakusei;
+
+        resultArea.export();
     }
     this.test = (monster) => {
         let step = 0;
@@ -102,22 +116,31 @@ function FilterEntry(mCotainer) {
                 ;
             } else { step += 1; }
             if (this.hasFilter_kakusei) {
-                monster['Kakusei'].map((e) => {
-                for (let i = 0; i < this.AllFilter['Kakusei'].length; i++) {
-                    let kname = kakusei[this.AllFilter['Kakusei'][i]];
-                    if (kname == e) {
-                        this.AllFilter['Kakusei'].splice(i, 1);
+                let filter = [];
+                this.AllFilter['Kakusei'].forEach((e, i) => {
+                    if (e == '0') return false;
+                    let n = parseInt(e);
+                    for (let j = 0; j < n; j++) {
+                        filter.push(kakusei[i]);
                     }
-                }
-            });
-            return filter.length == 0;
+                })
+                console.log('m', monster['Kakusei']);
+                console.log('f', filter);
+                monster['Kakusei'].map((e) => {
+                    for (let i = 0; i < filter.length; i++) {
+                        if (e == filter[i]) {
+                            console.log(i, e, filter[i], (e == filter[i]));
+                            filter.splice(i, 1);
+                        }
+                    }
+                });
+                console.log('f', filter);
+                if (filter.length == 0) { step += 1 };
             } else { step += 1; }
             return step == 4;
         } else {
             return true;
         }
-
-        
     }
 }
 
@@ -239,6 +262,7 @@ function ResultArea(mCotainer, mMinTemplate, mDetailTemplate, mControl) {
                         .attr('data-rare', M['Rare'].replace('★', ''))
                         .attr('data-skillcdmin', M['ActiveSkillCD'].replace('）', '').split('（')[0])
                         .attr('data-skillcdmax', M['ActiveSkillCD'].replace('）', '').split('（')[1]);
+                    if(!filterEntry.test(M)) { mtpl.addClass('filtered')};
                     exlist = exlist.add(mtpl);
                 });
             } else if (this.style == 'list') {
@@ -256,6 +280,7 @@ function ResultArea(mCotainer, mMinTemplate, mDetailTemplate, mControl) {
                     dtpl.find('.card-text > div').eq(1).find(' > div').eq(1).html(M['ActiveSkillCD']);
                     dtpl.find('.card-text > div').eq(2).find(' > div').eq(0).html(M['ActiveSkillContent']);
                     dtpl.find('.card-text > div').eq(3).find(' > div').eq(0).html(iconKakuseiTpl(M['Kakusei']));
+                    if(!filterEntry.test(M)) { dtpl.addClass('filtered')};
                     exlist = exlist.add(dtpl);
                 });
             }
@@ -301,7 +326,7 @@ function iconKakuseiTpl(n) {
     if (n.length) {
         let tpl = [];
         for (let i = 0;i < n.length; i++) {
-            tpl.push(`<i class='icon-kakusei i-kakusei-${kakusei[n[i]]}'></i>`);
+            tpl.push(`<i class='icon-kakusei i-kakusei-${kakusei_n[n[i]]}'></i>`);
         }
         return tpl.join('');
     }

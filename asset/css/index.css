@@ -39,6 +39,9 @@ body::before {
     min-height: 35px;
     align-items: center;
 }
+.sort-item.filtered {
+    display: none !important;
+}
 .charicon {
     position: relative;
     margin: 0.25rem;

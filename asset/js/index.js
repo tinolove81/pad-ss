@@ -28,18 +28,10 @@ const KAKUSEI_N = [
 ];
 
 let retry = 0;
-let SearchMonster = [];
 
 let filterEntry = new FilterEntry('#filterentry');
 let ruleLibrary = new RuleLibrary('#rulelibrary', '#rule-library-tpl');
-let resultArea = new ResultArea('#resultarea', '#result-area-min-tpl', '#result-area-detail-tpl', '#resultconfig');
-
-// $.getJSON('./lib/CHAR_modify.json', (data) => {
-//     MONSTER = data;
-// });
-// $.getJSON('./lib/TAG.json', (data) => {
-//     SKILLTAG = data;
-// });
+let resultArea = new ResultArea('#resultarea', '#result-area-tpl', '#resultconfig');
 
 (function loadDefault() {
     if (retry < 10) {
@@ -50,9 +42,20 @@ let resultArea = new ResultArea('#resultarea', '#result-area-min-tpl', '#result-
         }
         retry++;
     } else {
-        alert('Connect database error.');
+        alert('Connect data error.');
     }
 })();
+
+$('#btnswitchtheme').on('click', (e) => {
+    let theme = e.currentTarget.dataset.theme;
+    if (theme == 'dark') {
+        e.currentTarget.dataset.theme = 'light';
+        $('body').addClass('theme-light').removeClass('theme-dark');
+    } else if (theme == 'light') {
+        e.currentTarget.dataset.theme = 'dark';
+        $('body').addClass('theme-dark').removeClass('theme-light');
+    }
+});
 
 function FilterEntry(mCotainer) {
     this.cotainer = $(mCotainer);
@@ -100,22 +103,26 @@ function FilterEntry(mCotainer) {
         this.hasFilter = this.AllFilter['MainAttribute'] != 'none' || this.AllFilter['SubAttribute'] != 'none'
             || this.AllFilter['Type'] != 'none' || this.hasFilter_kakusei;
 
-        resultArea.search();
+        resultArea.finalPublish();
     }
     this.test = (mMon) => {
-        let step = 0;
+        let M_mainattr = mMon['MainAttribute'];
+        let M_subattr = mMon['SubAttribute'];
+        let M_type = [].concat(mMon['type']);
+        let M_kakusei = [].concat(mMon['Kakusei']);
         if (this.hasFilter) {
-            if (this.AllFilter['MainAttribute'] != 'none') {
-                ;
-            } else { step += 1; }
-            if (this.AllFilter['SubAttribute'] != 'none') {
-                ;
-            } else { step += 1; }
+            if (this.AllFilter['MainAttribute'] != 'none' && this.AllFilter['MainAttribute'] != M_mainattr) {
+                return false;
+            }
+            if (this.AllFilter['SubAttribute'] != 'none' && this.AllFilter['SubAttribute'] != M_subattr) {
+                return false;
+            }
             if (this.AllFilter['Type'] != 'none') {
-                ;
-            } else { step += 1; }
+                if (M_type.indexOf(this.AllFilter['Type']) == -1) {
+                    return false;
+                }
+            }
             if (this.hasFilter_kakusei) {
-                let M_kakusei = [].concat(mMon['Kakusei']);
                 let filter = [];
                 this.AllFilter['Kakusei'].forEach((e, i) => {
                     if (e == '0') return false;
@@ -133,9 +140,11 @@ function FilterEntry(mCotainer) {
                         }
                     }
                 }
-                if (filter.every((val) => { return val == ''; })) { step += 1 };
-            } else { step += 1; }
-            return step == 4;
+                if (!filter.every((val) => { return val == ''; })) {
+                    return false;
+                };
+            }
+            return true;
         } else {
             return true;
         }
@@ -182,46 +191,47 @@ function RuleLibrary(mCotainer, mTemplate) {
                     $('#ruletips').fadeIn();
                     $('#resultarea').html('');
                 } else {
-                    resultArea.search();
+                    resultArea.searchMonster();
                 }
             });
         });
         $('#ruletips').hide();
-        resultArea.search();
+        resultArea.searchMonster();
     };
     this.getTag = () => {
         return Object.values(this.AllRule);
     };
 }
 
-function ResultArea(mCotainer, mMinTemplate, mDetailTemplate, mControl) {
+function ResultArea(mCotainer, mTemplate, mControl) {
     this.cotainer = $(mCotainer);
-    this.mtpl = $(mMinTemplate);
-    this.dtpl = $(mDetailTemplate);
+    this.tmpl = $(mTemplate);
     this.control = $(mControl);
 
     this.sort = 'number';
     this.sortorder = 'asc';
     this.style = 'icon';
     this.searchresult = [];
-    this.$exportresult;
+    this.$collectresult = $();
 
     this.init = (() => {
         this.control.find('#resultconfig_sort').on('change', (e) => {
             this.sort = $(e.target).val();
-            this.sorter();
+            this.finalPublish();
         });
         this.control.find('#resultconfig_sortorder').on('change', (e) => {
             this.sortorder = $(e.target).val();
-            this.sorter();
+            this.finalPublish();
         });
         this.control.find('input[name="resultconfig_style"]').on('change', (e) => {
             this.style = $(e.target).val();
-            this.export();
+            this.cotainer.removeClass('style-list').removeClass('style-icon');
+            this.cotainer.addClass('style-' + this.style);
         });
     })();
 
-    this.search = () => {
+    // SearchMonster from [SkillTag] by {AddRule} export [tag raw data]
+    this.searchMonster = () => {
         let tag = ruleLibrary.getTag();
         if (tag.length) {
             let mon = [];
@@ -246,69 +256,57 @@ function ResultArea(mCotainer, mMinTemplate, mDetailTemplate, mControl) {
                 }
             }
             this.searchresult = mon;
-            this.export();
+            this.collectElement();
+        } else {
+            this.searchresult = [];
         }
     };
-    this.export = () => {
+    // CollectElement from [searchresult](tag data) by {searchMonster} export [jquery element array with template]
+    this.collectElement = () => {
             let exlist = $();
-            if (this.style == 'icon') {
-                this.searchresult.forEach((e, i) => {
-                    let mtpl = $(this.mtpl.contents()[1]).clone();
-                    let M = MONSTER[e['no'] - 1 ];
-                    mtpl.attr('data-number', e['no'])
-                        .attr('data-name', M['Name'])
-                        .attr('data-rare', M['Rare'].replace('★', ''))
-                        .attr('data-skillcdmin', M['ActiveSkillCD'].replace('）', '').split('（')[0])
-                        .attr('data-skillcdmax', M['ActiveSkillCD'].replace('）', '').split('（')[1]);
-                    if(!filterEntry.test(M)) { mtpl.addClass('filtered')};
-                    exlist = exlist.add(mtpl);
-                });
-            } else if (this.style == 'list') {
-                this.searchresult.forEach((e, i) => {
-                    let dtpl = $(this.dtpl.contents()[1]).clone();
-                    let M = MONSTER[e['no'] - 1 ];
-                    dtpl.attr('data-number', e['no'])
-                        .attr('data-rare', M['Rare'].replace('★', ''))
-                        .attr('data-skillcdmin', M['ActiveSkillCD'].replace('）', '').split('（')[0])
-                        .attr('data-skillcdmax', M['ActiveSkillCD'].replace('）', '').split('（')[1])
-                    dtpl.find('.card-text > div').eq(0).find(' > div').eq(0).html(`No. ${e['no']}`);
-                    dtpl.find('.card-text > div').eq(0).find(' > div').eq(1).html(M['Name']);
-                    dtpl.find('.card-text > div').eq(0).find(' > div').eq(2).html(M['Rare']);
-                    dtpl.find('.card-text > div').eq(1).find(' > div').eq(0).html(M['ActiveSkillName']);
-                    dtpl.find('.card-text > div').eq(1).find(' > div').eq(1).html(M['ActiveSkillCD']);
-                    dtpl.find('.card-text > div').eq(2).find(' > div').eq(0).html(M['ActiveSkillContent']);
-                    dtpl.find('.card-text > div').eq(3).find(' > div').eq(0).html(iconKakuseiTpl(M['Kakusei']));
-                    if(!filterEntry.test(M)) { dtpl.addClass('filtered')};
-                    exlist = exlist.add(dtpl);
-                });
-            }
-            this.$exportresult = exlist;
-            this.sorter();
+            this.searchresult.forEach((e, i) => {
+                let tmpl = $(this.tmpl.contents()[1]).clone();
+                let M = MONSTER[e['no'] - 1 ];
+                tmpl.attr('data-number', e['no'])
+                tmpl.attr('data-name', M['Name'])
+                    .attr('data-mainattr', M['MainAttribute'])
+                    .attr('data-subattr', M['SubAttribute'])
+                    .attr('data-rare', M['Rare'].replace('★', ''))
+                    .attr('data-skillcdmin', M['ActiveSkillCD'].replace('）', '').split('（')[0])
+                    .attr('data-skillcdmax', M['ActiveSkillCD'].replace('）', '').split('（')[1])
+                tmpl.find('.resultcardintro').eq(0).html(e['no']);
+                let detail = tmpl.find('.resultcarddetail > div');
+                detail.eq(0).find(' > div').eq(0).html(`No. ${e['no']}`);
+                detail.eq(0).find(' > div').eq(1).html(M['Name']);
+                detail.eq(0).find(' > div').eq(2).html(M['Rare']);
+                detail.eq(1).find(' > div').eq(0).html(M['ActiveSkillName']);
+                detail.eq(1).find(' > div').eq(1).html(M['ActiveSkillCD']);
+                detail.eq(2).find(' > div').eq(0).html(M['ActiveSkillContent']);
+                detail.eq(3).find(' > div').eq(0).html(iconKakuseiTpl(M['Kakusei']));
+                exlist = exlist.add(tmpl);
+            });
+            this.$collectresult = exlist;
+            this.finalPublish();
     };
-    this.sorter = () => {
-        this.cotainer.html('');
-        if (this.$exportresult.length) {
+    // FinalPublish from [$collectresult](element array) by {collectElement} around {sort} and {filter} to front side
+    this.finalPublish = () => {
+        if (this.$collectresult.length) {
             let fn = this.sort;
             let order = this.sortorder;
-            let list = this.$exportresult.sort((a, b) => {
+            let list = this.$collectresult.sort((a, b) => {
                 if (order == 'asc') {
                     return +a['dataset'][fn] - +b['dataset'][fn];
                 } else if (order == 'desc') {
                     return +b['dataset'][fn] - +a['dataset'][fn];
                 }
             });
-            if (this.style == 'icon') {
-                this.cotainer.removeClass('flex-column');
-                $.each(list, (i, e) => {
-                    $(e).find('.sortdata').html(e['dataset'][fn]);
-                    this.cotainer.append(e).children(':last').hide().fadeIn();
-                });
-            } else if (this.style == 'list') {
-                this.cotainer.addClass('flex-column');
-                $.each(list, (i, e) => {
-                    this.cotainer.append(e).children(':last').hide().fadeIn();
-                });
-            }
+            list.each((i, e) => {
+                let n = e['dataset']['number'];
+                let M = MONSTER[n - 1];
+                filterEntry.test(M) ? $(e).removeClass('filtered') : $(e).addClass('filtered');
+                $(e).find('.resultcardintro').html(e['dataset'][fn]);
+                this.cotainer.append(e);
+            });
         }
     };
 }

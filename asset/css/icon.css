@@ -1,3 +1,12 @@
+.icon-tool-theme {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: 24px 24px;
+}
 .icon-none::before {
     content: '不限';
     display: inline-block;

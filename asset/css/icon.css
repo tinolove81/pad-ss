@@ -77,6 +77,105 @@
 .id-bomb {
     background-position: -216px 0;
 }
+.icon-attr {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: 50px 50px;
+}
+.ia-fire {
+    background-image: url('../images/attr_Fire.png');
+}
+.ia-firefire {
+    background-image: url('../images/attr_FireFire.png');
+}
+.ia-firewater {
+    background-image: url('../images/attr_FireWater.png');
+}
+.ia-firewood {
+    background-image: url('../images/attr_FireWood.png');
+}
+.ia-firelight {
+    background-image: url('../images/attr_FireLight.png');
+}
+.ia-firedark {
+    background-image: url('../images/attr_FireDark.png');
+}
+.ia-water {
+    background-image: url('../images/attr_Water.png');
+}
+.ia-waterfire {
+    background-image: url('../images/attr_WaterFire.png');
+}
+.ia-waterwater {
+    background-image: url('../images/attr_WaterWater.png');
+}
+.ia-waterwood {
+    background-image: url('../images/attr_WaterWood.png');
+}
+.ia-waterlight {
+    background-image: url('../images/attr_WaterLight.png');
+}
+.ia-waterdark {
+    background-image: url('../images/attr_WaterDark.png');
+}
+.ia-wood {
+    background-image: url('../images/attr_Wood.png');
+}
+.ia-woodfire {
+    background-image: url('../images/attr_WoodFire.png');
+}
+.ia-woodwater {
+    background-image: url('../images/attr_WoodWater.png');
+}
+.ia-woodwood {
+    background-image: url('../images/attr_WoodWood.png');
+}
+.ia-woodlight {
+    background-image: url('../images/attr_WoodLight.png');
+}
+.ia-wooddark {
+    background-image: url('../images/attr_WoodDark.png');
+}
+.ia-light {
+    background-image: url('../images/attr_Light.png');
+}
+.ia-lightfire {
+    background-image: url('../images/attr_LightFire.png');
+}
+.ia-lightwater {
+    background-image: url('../images/attr_LightWater.png');
+}
+.ia-lightwood {
+    background-image: url('../images/attr_LightWood.png');
+}
+.ia-lightlight {
+    background-image: url('../images/attr_LightLight.png');
+}
+.ia-lightdark {
+    background-image: url('../images/attr_LightDark.png');
+}
+.ia-dark {
+    background-image: url('../images/attr_Dark.png');
+}
+.ia-darkfire {
+    background-image: url('../images/attr_DarkFire.png');
+}
+.ia-darkwater {
+    background-image: url('../images/attr_DarkWater.png');
+}
+.ia-darkwood {
+    background-image: url('../images/attr_DarkWood.png');
+}
+.ia-darklight {
+    background-image: url('../images/attr_DarkLight.png');
+}
+.ia-darkdark {
+    background-image: url('../images/attr_DarkDark.png');
+}
 .icon-type {
     display: inline-block;
     width: 24px;

@@ -273,7 +273,9 @@ function ResultArea(mCotainer, mTemplate, mControl) {
                     .attr('data-subattr', M['SubAttribute'])
                     .attr('data-rare', M['Rare'].replace('★', ''))
                     .attr('data-skillcdmin', M['ActiveSkillCD'].replace('）', '').split('（')[0])
-                    .attr('data-skillcdmax', M['ActiveSkillCD'].replace('）', '').split('（')[1])
+                    .attr('data-skillcdmax', M['ActiveSkillCD'].replace('）', '').split('（')[1]);
+                tmpl.find('.resultcardpic').eq(0).addClass('icon-attr');
+                tmpl.find('.resultcardpic').eq(0).addClass(`ia-${M['MainAttribute'].toLowerCase() + ((M['SubAttribute'] == 'None') ? '' : M['SubAttribute'].toLowerCase())}`);
                 tmpl.find('.resultcardintro').eq(0).html(e['no']);
                 let detail = tmpl.find('.resultcarddetail > div');
                 detail.eq(0).find(' > div').eq(0).html(`No. ${e['no']}`);
@@ -290,6 +292,7 @@ function ResultArea(mCotainer, mTemplate, mControl) {
     };
     // FinalPublish from [$collectresult](element array) by {collectElement} around {sort} and {filter} to front side
     this.finalPublish = () => {
+        this.cotainer.html('');
         if (this.$collectresult.length) {
             let fn = this.sort;
             let order = this.sortorder;

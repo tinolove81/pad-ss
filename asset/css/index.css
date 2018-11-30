@@ -138,8 +138,6 @@ body::before {
 .resultcardpic {
     width: 50px;
     height: 50px;
-    border: 2px solid #ACF;
-    border-radius: 50% 5%;
     background: rgb(82, 82, 82);
 }
 

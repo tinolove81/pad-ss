@@ -156,6 +156,7 @@ function RuleLibrary(mCotainer, mTemplate) {
     this.template = $(mTemplate);
 
     this.AllRule = {};
+    this.nRules = 0;
 
     this.init = (() => {
         $('#btnAddRule').on('click', (e) => {
@@ -171,18 +172,16 @@ function RuleLibrary(mCotainer, mTemplate) {
 
     this.addRule = (mData) => {
         let tpl = this.template.html();
-        let nRules = this.getTag().length;
         let A = mData.split('-')[0];
         let B = mData.split('-')[1];
-        this.AllRule['k' + nRules] = `${ELEMENT[A]}轉${ELEMENT[B]}`;
+        this.AllRule['k' + this.nRules] = `${ELEMENT[A]}轉${ELEMENT[B]}`;
         this.cotainer.append(tpl
-            .replace(/{{nRules}}/g, 'k' + nRules)
-            .replace('{{nRules+1}}', nRules + 1)
+            .replace(/{{nRules}}/g, 'k' + this.nRules)
             .replace('{{A}}', iconDropTpl(A))
             .replace('{{B}}', iconDropTpl(B))
             ).children(':last').hide().fadeIn();
             
-        $(`#btnDelRule${'k' + nRules}`).on('click', (e) => {
+        $(`#btnDelRule${'k' + this.nRules}`).on('click', (e) => {
             $(e.target).closest('.input-group').fadeOut('fast', () => {
                 let key = e.target.id.slice(10);
                 delete this.AllRule[key];
@@ -196,6 +195,7 @@ function RuleLibrary(mCotainer, mTemplate) {
             });
         });
         $('#ruletips').hide();
+        this.nRules++;
         resultArea.searchMonster();
     };
     this.getTag = () => {

@@ -38,7 +38,7 @@ body.theme-dark .sort-item.card {
     background-color: transparent;
     border-color: #f8f9fa !important;
 }
-body.theme-dark .sort-item.card div:not(.charpic) {
+body.theme-dark .sort-item.card div:not(.resultcardpic) {
     border-color: #f8f9fa !important;
 }
 
@@ -85,6 +85,6 @@ body.theme-light .sort-item.card {
     background-color: transparent;
     border-color: #343a40 !important;
 }
-body.theme-light .sort-item.card div:not(.charpic) {
+body.theme-light .sort-item.card div:not(.resultcardpic) {
     border-color: #343a40 !important;
 }

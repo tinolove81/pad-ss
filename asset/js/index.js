@@ -51,9 +51,11 @@ $('#btnswitchtheme').on('click', (e) => {
     if (theme == 'dark') {
         e.currentTarget.dataset.theme = 'light';
         $('body').addClass('theme-light').removeClass('theme-dark');
+        $('nav').addClass('navbar-light').removeClass('navbar-dark');
     } else if (theme == 'light') {
         e.currentTarget.dataset.theme = 'dark';
         $('body').addClass('theme-dark').removeClass('theme-light');
+        $('nav').addClass('navbar-dark').removeClass('navbar-light');
     }
 });
 

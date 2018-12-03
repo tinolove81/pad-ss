@@ -19,6 +19,21 @@ body::before {
     z-index: -1;
     opacity: .3;
 }
+i {
+    /* opacity: 0; */
+}
+nav #collapseNews {
+    position: absolute;
+    margin-top: 100%;
+    width: auto;
+    top: 5px;
+    right: 5px;
+    background-color: transparent;
+    z-index: 500;
+}
+nav #collapseNews img {
+    width: 250px;
+}
 .overlay {
     display: flex;
     position: fixed;

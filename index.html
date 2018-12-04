@@ -11,6 +11,7 @@
     <link rel='stylesheet' href='./asset/css/icon.css' />
     <script src='./asset/js/jquery-3.2.1.min.js'></script>
     <script src='./asset/js/bootstrap.bundle.min.js'></script>
+    <script src='./asset/js/lazyload.min.js'></script>
     <title>【パズドラ】Skill Database</title>
     <script async src='https://www.googletagmanager.com/gtag/js?id=UA-130029385-1'></script>
     <script>
@@ -38,20 +39,20 @@
             <div class='card p-2 align-items-center text-center'>
                 <span class='card-text text-danger'>== 尚未更新 ==</span>
                 <span class='card-text'>- モンスターメモリー第4弾 愛猫神の烈風 -</span>
-                <a href='https://padr.gungho.jp/reward/181203.html'>
-                    <img src='./asset/images/event/event_181203.jpg' />
+                <a href='https://padr.gungho.jp/reward/181203.html' target='_blank'>
+                    <img class='lazyload' data-src='./asset/images/event/event_181203.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />
                 </a>
                 <span class='card-text'>- ガンホーコラボゴッドフェス -</span>
-                <a href='https://pad.gungho.jp/member/event/godfes/181127.html'>
-                    <img src='./asset/images/event/event_181127_1.jpg' />
+                <a href='https://pad.gungho.jp/member/event/godfes/181127.html' target='_blank'>
+                    <img class='lazyload' data-src='./asset/images/event/event_181127_1.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />
                 </a>
                 <span class='card-text'>- ガンホーコラボキャラクター -</span>
-                <a href='https://pad.gungho.jp/member/collabo/gungho/181127_gungho.html'>
-                    <img src='./asset/images/event/event_181127.jpg' />
+                <a href='https://pad.gungho.jp/member/collabo/gungho/181127_gungho.html' target='_blank'>
+                    <img class='lazyload' data-src='./asset/images/event/event_181127.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />
                 </a>
                 <span class='card-text'>- 仮面ライダー×パズドラ -</span>
-                <a href='https://pad.gungho.jp/member/collabo/kamenrider/181126_kamenrider.html'>
-                    <img src='./asset/images/event/event_181126.jpg' />
+                <a href='https://pad.gungho.jp/member/collabo/kamenrider/181126_kamenrider.html' target='_blank'>
+                    <img class='lazyload' data-src='./asset/images/event/event_181126.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />
                 </a>
             </div>
           </div>
@@ -1055,7 +1056,7 @@
     <template id='result-area-tpl'>
         <div class='sort-item card resultalt' data-number='{{DataNumber}}' data-name='{{DataName}}' data-rare='{{DataRare}}' data-skillcdmin='{{DataSkillCDMin}}' data-skillcdmax='{{DataSkillCDMax}}'>
             <div class='card-text'>
-                <div class='resultcardpic' src='' alt='img'></div>
+                <div class='resultcardpic lazyload' data-src='' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
                 <div class='resultcardintro'>{{Number}}</div>
             </div>
             <div class='card-text resultcarddetail'>

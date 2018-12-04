@@ -33,6 +33,7 @@ nav #collapseNews {
 }
 nav #collapseNews img {
     width: 250px;
+    height: 93.75px;
 }
 .overlay {
     display: flex;

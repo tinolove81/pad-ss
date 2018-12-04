@@ -28,14 +28,15 @@ const KAKUSEI_N = [
 ];
 
 let retry = 0;
+let timestamp;
 
 let filterEntry = new FilterEntry('#filterentry');
 let ruleLibrary = new RuleLibrary('#rulelibrary', '#rule-library-tpl');
 let resultArea = new ResultArea('#resultarea', '#result-area-tpl', '#resultconfig');
 
-(function loadDefault() {
+window.onload = () => {
     if (retry < 10) {
-        if (MONSTER != undefined && SKILLTAG != undefined) {
+        if (MONSTER && SKILLTAG) {
             $('.overlay').addClass('d-none');
         } else {
             setTimeout(loadDefault, 300);
@@ -46,7 +47,9 @@ let resultArea = new ResultArea('#resultarea', '#result-area-tpl', '#resultconfi
     }
 
     $('#pageinfo').html(`body: ${document.body.clientWidth}, window: ${window.innerWidth}`);
-})();
+    
+    lazyload();
+}
 
 $('#btnswitchtheme').on('click', (e) => {
     let theme = e.currentTarget.dataset.theme;

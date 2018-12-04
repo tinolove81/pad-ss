@@ -44,6 +44,8 @@ let resultArea = new ResultArea('#resultarea', '#result-area-tpl', '#resultconfi
     } else {
         alert('Connect data error.');
     }
+
+    $('#pageinfo').html(`body: ${document.body.clientWidth}, window: ${window.innerWidth}`);
 })();
 
 $('#btnswitchtheme').on('click', (e) => {
@@ -181,7 +183,7 @@ function RuleLibrary(mCotainer, mTemplate) {
             .replace(/{{nRules}}/g, 'k' + this.nRules)
             .replace('{{A}}', iconDropTpl(A))
             .replace('{{B}}', iconDropTpl(B))
-            ).children(':last').hide().fadeIn();
+            );
             
         $(`#btnDelRule${'k' + this.nRules}`).on('click', (e) => {
             $(e.target).closest('.input-group').fadeOut('fast', () => {

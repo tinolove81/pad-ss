@@ -20,7 +20,7 @@ body::before {
     opacity: .3;
 }
 i {
-    opacity: 0;
+/*     opacity: 0; */
 }
 nav #collapseNews {
     position: absolute;

@@ -4,7 +4,7 @@
 <head>
     <meta charset='UTF-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name='viewport' content='width=device-width, initial-scale=1, min-scale=1, max-scale=1, user-scalable=no, shrink-to-fit=no'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no'>
     <link rel='stylesheet' href='./asset/css/bootstrap.min.css' />
     <link rel='stylesheet' href='./asset/css/index.css' />
     <link rel='stylesheet' href='./asset/css/theme.css' />
@@ -20,10 +20,9 @@
         gtag('js', new Date());
 
         gtag('config', 'UA-130029385-1');
-        document.addEventListener('touchmove',
-        function(e) {
-            e.preventDefault();
-        }, {passive:false});
+        // document.addEventListener('touchmove', (e) => {
+        //     e.preventDefault();
+        // }, { passive:false });
     </script>
 </head>
 
@@ -42,6 +41,7 @@
         <div id='collapseNews' class='collapse shadow'>
             <div class='card p-2 align-items-center text-center'>
                 <span class='card-text text-danger'>== 尚未更新 ==</span>
+                <span class='card-text text-success'>== 最後更新 ==</span>
                 <span class='card-text'>- モンスターメモリー第4弾 愛猫神の烈風 -</span>
                 <a href='https://padr.gungho.jp/reward/181203.html' target='_blank'>
                     <img class='lazyload' data-src='./asset/images/event/event_181203.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />

@@ -20,6 +20,10 @@
         gtag('js', new Date());
 
         gtag('config', 'UA-130029385-1');
+        document.addEventListener('touchmove',
+        function(e) {
+            e.preventDefault();
+        }, {passive:false});
     </script>
 </head>
 
@@ -1061,7 +1065,7 @@
             </div>
             <div class='card-text resultcarddetail'>
                 <div class='row border-bottom'>
-                    <div class='col col-lg-2 border-left'>No. {{Number}}</div>
+                    <div class='col-auto col-lg-2 border-left'>No. {{Number}}</div>
                     <div class='col col-lg border-left'>{{Name}}</div>
                     <div class='ml-auto'>{{Rare}}</div>
                 </div>

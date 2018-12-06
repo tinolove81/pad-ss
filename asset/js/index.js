@@ -46,7 +46,7 @@ window.onload = () => {
         alert('Connect data error.');
     }
 
-    $('#pageinfo').html(`body: ${document.body.clientWidth}, window: ${window.innerWidth}`);
+    $('#pageinfo').html(`body: ${document.body.clientWidth}, window: ${window.innerWidth} ~`);
     
     lazyload();
 }

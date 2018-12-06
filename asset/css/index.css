@@ -163,8 +163,10 @@ nav #collapseNews img {
 
 
 
-
-
+/** custom Bootstrap Like**/
+.right-0 {
+    right: 0;
+}
 
 
 

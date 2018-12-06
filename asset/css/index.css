@@ -24,7 +24,7 @@ i {
 }
 nav #collapseNews {
     position: absolute;
-    margin-top: 100%;
+    margin-top: 10%;
     width: auto;
     top: 5px;
     right: 5px;
@@ -62,8 +62,7 @@ nav #collapseNews img {
 }
 .input-group .custom-select {
     width: auto;
-    height: 100%;
-    padding: 0 1rem 0 0.25rem;
+    padding: 0 1.75rem 0 0.25rem;
     background-color: transparent;
     background-position-x: right 0.3rem;
 }
@@ -79,6 +78,7 @@ nav #collapseNews img {
     width: auto;
     height: auto;
     border: 0;
+	cursor: pointer;
 }
 .style-icon .card .resultcardintro {
     display: block;
@@ -103,6 +103,8 @@ nav #collapseNews img {
     z-index: 3;
     pointer-events: none;
 }
+.style-icon .card.resultalt:focus::before,
+.style-icon .card.resultalt:active::before,
 .style-icon .card.resultalt:hover::before {
     opacity : 1;
     /* customizable */
@@ -124,6 +126,8 @@ nav #collapseNews img {
     transform: translateX(-50%);
     opacity : 0;
 }
+.style-icon .card.resultalt:focus::after,
+.style-icon .card.resultalt:active::after,
 .style-icon .card.resultalt:hover::after {
     margin-bottom: 74px;
     opacity : 1;

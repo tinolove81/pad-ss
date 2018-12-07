@@ -35,20 +35,20 @@ let ruleLibrary = new RuleLibrary('#rulelibrary', '#rule-library-tpl');
 let resultArea = new ResultArea('#resultarea', '#result-area-tpl', '#resultconfig');
 
 window.onload = () => {
-    if (retry < 10) {
-        if (MONSTER && SKILLTAG) {
-            $('.overlay').addClass('d-none');
+    (function loadDefault () {
+        if (retry < 10) {
+            if (MONSTER && SKILLTAG) {
+                $('.overlay').addClass('d-none');
+                $('#pageinfo').html(`2018/12/07 17:20`);
+                lazyload();
+            } else {
+                retry++;
+                setTimeout(loadDefault, 300);
+            }
         } else {
-            setTimeout(loadDefault, 300);
+            alert('Connect data error.');
         }
-        retry++;
-    } else {
-        alert('Connect data error.');
-    }
-
-    $('#pageinfo').html(``);
-    
-    lazyload();
+    })();
 }
 
 $('#btnswitchtheme').on('click', (e) => {

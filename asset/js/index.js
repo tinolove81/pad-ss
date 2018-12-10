@@ -39,7 +39,6 @@ window.onload = () => {
         if (retry < 10) {
             if (MONSTER && SKILLTAG) {
                 $('.overlay').addClass('d-none');
-                $('#pageinfo').html(`2018/12/07 17:20`);
                 lazyload();
             } else {
                 retry++;

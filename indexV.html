@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no'>
+    <link rel='stylesheet' href='./asset/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='./asset/css/index.css' />
+    <link rel='stylesheet' href='./asset/css/theme.css' />
+    <link rel='stylesheet' href='./asset/css/icon.css' />
+    <script src='./asset/js/vue.js'></script>
+    <script src='./asset/js/lazyload.min.js'></script>
+    <title>【パズドラ】Skill Search</title>
+    <script async src='https://www.googletagmanager.com/gtag/js?id=UA-130029385-1'></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-130029385-1');
+    </script>
+</head>
+
+<body>
+    <div id='app' class='container theme-dark'>
+        <div class='overlay justify-content-center align-items-center' tabindex='-1' :class='{ "d-none" : !overlay}'>
+            <div class='loading-ring'></div>
+        </div>
+        <nav class='navbar navbar-dark shadow'>
+            <a class='navbar-brand'>【パズドラ】Skill Search</a>
+            <button type='button' id='btnswitchtheme' class='btn btn-sm navbar-toggler ml-auto' data-theme='dark'>
+                <i class='icon-tool icon-theme-toggler'></i>
+            </button>
+            <button type='button' class='btn btn-sm navbar-toggler ml-1' data-toggle='collapse' data-target='#collapseNews' >
+                <i class='icon-tool icon-navbar-toggler'></i>
+            </button>
+            <div id='collapseNews' class='collapse shadow'>
+                <div class='card p-2 align-items-center text-center'>
+                    <span class='card-text text-danger'>== 尚未更新 ==</span>
+                    <span class='card-text'>- 「フェス限ヒロイン」シリーズ -</span>
+                    <a href='https://pad.gungho.jp/member/carnival/fes_heroine/181207/fes_heroine.html' target='_blank'>
+                        <img class='lazyload' data-src='./asset/images/event/event_181207.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />
+                    </a>
+                    <span class='card-text text-success'>== 最後更新 ==</span>
+                    <span class='card-text'>- モンスターメモリー第4弾 愛猫神の烈風 -</span>
+                    <a href='https://padr.gungho.jp/reward/181203.html' target='_blank'>
+                        <img class='lazyload' data-src='./asset/images/event/event_181203.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />
+                    </a>
+                    <span class='card-text'>- ガンホーコラボゴッドフェス -</span>
+                    <a href='https://pad.gungho.jp/member/event/godfes/181127.html' target='_blank'>
+                        <img class='lazyload' data-src='./asset/images/event/event_181127_1.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />
+                    </a>
+                    <span class='card-text'>- ガンホーコラボキャラクター -</span>
+                    <a href='https://pad.gungho.jp/member/collabo/gungho/181127_gungho.html' target='_blank'>
+                        <img class='lazyload' data-src='./asset/images/event/event_181127.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />
+                    </a>
+                    <span class='card-text'>- 仮面ライダー×パズドラ -</span>
+                    <a href='https://pad.gungho.jp/member/collabo/kamenrider/181126_kamenrider.html' target='_blank'>
+                        <img class='lazyload' data-src='./asset/images/event/event_181126.jpg' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" />
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div id='filterentry' class='container px-3 pb-1'>
+            <div id='filter_mainattr' class='row mt-1 align-items-center'>
+                <div class='puretext'><span>主属性：</span></div>
+                <div class='col-12 col-sm'>
+                    <div class='btn-group btn-group-sm btn-group-toggle' data-toggle='buttons'>
+                        <label class='btn btn-outline-primary active'><input type='radio' name='MonsterAttr_A' value='none' autocomplete='off' checked/><i class='icon-none'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='Fire' autocomplete='off'/><i class='icon-drop id-fire'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='Water' autocomplete='off'/><i class='icon-drop id-water'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='Wood' autocomplete='off'/><i class='icon-drop id-wood'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='Light' autocomplete='off'/><i class='icon-drop id-light'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_A' value='Dark' autocomplete='off'/><i class='icon-drop id-dark'></i></label>
+                    </div>
+                </div>
+            </div>
+            <div id='filter_subattr' class='row mt-1 align-items-center'>
+                <div class='puretext'><span>副属性：</span></div>
+                <div class='col-12 col-sm'>
+                    <div class='btn-group btn-group-sm btn-group-toggle' data-toggle='buttons'>
+                        <label class='btn btn-outline-primary active'><input type='radio' name='MonsterAttr_B' value='none' autocomplete='off' checked/><i class='icon-none'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='Fire' autocomplete='off'/><i class='icon-drop id-fire'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='Water' autocomplete='off'/><i class='icon-drop id-water'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='Wood' autocomplete='off'/><i class='icon-drop id-wood'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='Light' autocomplete='off'/><i class='icon-drop id-light'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterAttr_B' value='Dark' autocomplete='off'/><i class='icon-drop id-dark'></i></label>
+                    </div>
+                </div>
+            </div>
+            <div id='filter_type' class='row mt-1 align-items-center'>
+                <div class='puretext'><span>タイプ：</span></div>
+                <div class='col-12 col-sm'>
+                    <div class='btn-group btn-group-sm btn-group-toggle flex-wrap' data-toggle='buttons'>
+                        <label class='btn btn-outline-primary active'><input type='radio' name='MonsterType' value='none' autocomplete='off' checked/><i class='icon-none'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='god' autocomplete='off'/><i class='icon-type it-god'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='dragon' autocomplete='off'/><i class='icon-type it-dragon'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='devil' autocomplete='off'/><i class='icon-type it-devil'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='machine' autocomplete='off'/><i class='icon-type it-machine'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='balance' autocomplete='off'/><i class='icon-type it-balance'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='attack' autocomplete='off'/><i class='icon-type it-attack'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='vitality' autocomplete='off'/><i class='icon-type it-vitality'></i></label>
+                        <label class='btn btn-outline-primary'><input type='radio' name='MonsterType' value='recovery' autocomplete='off'/><i class='icon-type it-recovery'></i></label>
+                    </div>
+                </div>
+            </div>
+            <div id='filter_kakusei' class='row mt-1 align-items-center'>
+                <div class='d-flex px-3 align-items-center mb-auto'><span>覚醒スキル：</span></div>
+                <div class='col-12 col-sm'>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-1 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-2 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-3 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-4 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-5 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-6 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-7 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-8 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-9 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-10 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-11 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-12 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-13 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-14 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-15 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-16 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-17 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-18 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-19 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-20 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-21 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-22 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-23 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-24 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-25 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-26 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-27 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-28 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-29 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-30 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-31 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-32 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-33 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-34 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-35 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-36 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-37 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-38 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-39 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-40 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-41 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-42 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-43 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-44 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-45 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-46 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-47 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-48 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-49 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-50 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-51 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-52 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-53 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-54 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-55 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-56 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-57 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-58 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-59 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-60 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-61 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-62 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-63 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class='btn-group btn-group-sm'>
+                        <label class='btn btn-outline-primary p-0 clearfix'>
+                            <i class='icon-kakusei i-kakusei-64 m-1 float-left'></i>
+                            <select class='custom-select float-right' autocomplete='off'>
+                                <option value='0' selected>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                                <option value='5'>5</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='container px-3 pb-2'>
+            <div class='row align-items-center'>
+                <div class='puretext mb-auto'><span class='text-warning'>★</span><span>スキル検索：</span></div>
+                <div class='col-12 col-sm'>
+                    <div class='px-3 py-2 border border-warning rounded'>
+                        <div id='changeAarea' class='row align-items-center'>
+                            <div class='puretext'><span>変換元：</span></div>
+                            <div class='col-12 col-sm'>
+                                <div class='btn-group btn-group-sm btn-group-toggle flex-wrap' data-toggle='buttons'>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='none' autocomplete='off'><i class='icon-none'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='all' autocomplete='off'><i class='icon-all'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='row' autocomplete='off'><i class='icon-row'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='col' autocomplete='off'><i class='icon-col'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='random' autocomplete='off'><i class='icon-random'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='fire' autocomplete='off'><i class='icon-drop id-fire'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='water' autocomplete='off'><i class='icon-drop id-water'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='wood' autocomplete='off'><i class='icon-drop id-wood'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='light' autocomplete='off'><i class='icon-drop id-light'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='dark' autocomplete='off'><i class='icon-drop id-dark'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='heart' autocomplete='off'><i class='icon-drop id-heart'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='trash' autocomplete='off'><i class='icon-drop id-trash'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='poison' autocomplete='off'><i class='icon-drop id-poison'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='mpoison' autocomplete='off'><i class='icon-drop id-mpoison'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='bomb' autocomplete='off'><i class='icon-drop id-bomb'></i></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id='changeBarea' class='row mt-2 align-items-center'>
+                            <div class='puretext'><span>変換先：</span></div>
+                            <div class='col-12 col-sm'>
+                                <div class='btn-group btn-group-sm btn-group-toggle flex-wrap' data-toggle='buttons'>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='fire' autocomplete='off'><i class='icon-drop id-fire'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='water' autocomplete='off'><i class='icon-drop id-water'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='wood' autocomplete='off'><i class='icon-drop id-wood'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='light' autocomplete='off'><i class='icon-drop id-light'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='dark' autocomplete='off'><i class='icon-drop id-dark'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='heart' autocomplete='off'><i class='icon-drop id-heart'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='trash' autocomplete='off'><i class='icon-drop id-trash'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='poison' autocomplete='off'><i class='icon-drop id-poison'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='mpoison' autocomplete='off'><i class='icon-drop id-mpoison'></i></label>
+                                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='bomb' autocomplete='off'><i class='icon-drop id-bomb'></i></label>
+                                </div>
+                            </div>
+                            <button id='btnAddRule' class='btn btn-success btn-sm ml-auto mr-3'>＋</button>
+                        </div>
+                    </div>
+                    <div id='rulelibrary' class='mt-1'>
+                        <div id='ruletips' class='puretext mb-1 border border-info rounded'><span>スキル検索条件を作成する</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='container px-3 pb-2'>
+            <div class='row align-items-center'>
+                <div class='puretext mb-auto'><span>結果：</span></div>
+                <div class='col-12 col-sm'>
+                    <div id='resultconfig' class='puretext border border-info rounded-top flex-wrap'>
+                        <div class='row align-items-center flex-fill'>
+                            <div class='col-auto ml-auto'>
+                                <div class='input-group'>
+                                    <select id='resultconfig_sort' class='custom-select custom-select-sm' autocomplete='off'>
+                                        <option value='number' selected>編號</option>
+                                        <option value='rare'>稀有度</option>
+                                        <!-- <option value='weight'>綜合能力</option> -->
+                                        <option value='skillcdmin'>技能初始</option>
+                                        <option value='skillcdmax'>技能最大</option>
+                                    </select>
+                                    <select id='resultconfig_sortorder' class='custom-select custom-select-sm' autocomplete='off'>
+                                        <option value='asc' selected>升序</option>
+                                        <option value='desc'>降序</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class='col-auto'>
+                                <div class='btn-group btn-group-sm btn-group-toggle' data-toggle='buttons'>
+                                    <label class='btn btn-outline-primary active'>
+                                        <input type='radio' name='resultconfig_style' value='icon' autocomplete='off' checked>
+                                        <span> Icon </span>
+                                    </label>
+                                    <label class='btn btn-outline-primary'>
+                                        <input type='radio' name='resultconfig_style' value='list' autocomplete='off'>
+                                        <span> List </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id='resultarea' class='puretext mb-2 py-1 border border-top-0 border-info rounded-bottom flex-wrap style-icon'></div>
+                </div>
+            </div>
+        </div>
+        <div class='container px-3 pb-2 rounded-bottom'>
+            <div class='row mt-5'>
+            </div>
+            <div class='row mt-5'>
+                <div class='col-auto'>This site is fan-made and not affiliated with GungHo Online Entertainment Inc.<br/>
+                    All trademarks and copyrights belong to their respective owners, and are used here under the terms of fair use.<br/>
+                    All images and graphics are the property of GungHo Online Entertainment Inc.<br/>
+                </div>
+                <div class='col-auto ml-auto align-self-end'>&#64;&#116;&#105;&#110;&#111;&#108;&#111;&#118;&#101;&#56;&#49;</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rule template 開始 -->
+        <script type='text/template' id='rule-library-tpl'>
+            <div id='rule{{nRules}}' class='input-group input-group-sm mb-1'>
+                <div class='input-group-prepend'>
+                    <span class='input-group-text'>検索条件</span>
+                </div>
+                <div class='form-control'>{{A}}<span>　－＞　</span>{{B}}</div>
+                <div class='input-group-append'>
+                    <button id='btnDelRule{{nRules}}' class='btn btn-danger' type='button'>－</button>
+                </div>
+            </div>
+        </script>
+    <!-- /Rule template 結束 -->
+    <!-- Result Area template 開始 -->
+        <template id='result-area-tpl'>
+            <div class='sort-item card resultalt' data-number='{{DataNumber}}' data-name='{{DataName}}' data-rare='{{DataRare}}' data-skillcdmin='{{DataSkillCDMin}}' data-skillcdmax='{{DataSkillCDMax}}'>
+                <div class='card-text'>
+                    <div class='resultcardpic lazyload' data-src='' src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs="></div>
+                    <div class='resultcardintro'>{{Number}}</div>
+                </div>
+                <div class='card-text resultcarddetail'>
+                    <div class='row border-bottom'>
+                        <div class='col-auto col-lg-2 border-left'>No. {{Number}}</div>
+                        <div class='col-12 col-lg border-left'>{{Name}}</div>
+                        <div class='col-auto position-absolute right-0'>{{Rare}}</div>
+                    </div>
+                    <div class='row border-bottom'>
+                        <div class='col border-left'>{{SkillName}}</div>
+                        <div class='col-auto col-lg border-left'>{{SkillCD}}</div>
+                    </div>
+                    <div class='row border-bottom'>
+                        <div class='col border-left'>{{Skill}}</div>
+                    </div>
+                    <div class='row'>
+                        <div class='col border-left'>{{Kakusei}}</div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    <!-- /Result Area template 結束 -->
+    
+    <script src='./lib/MONSTER.js'></script>
+    <script src='./lib/SKILLTAG.js'></script>
+    <script src='./asset/js/indexV.js'></script>
+</body>
+
+</html>

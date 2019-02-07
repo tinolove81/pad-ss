@@ -245,7 +245,11 @@
     background-size: 24px 1600px;
 }
 .i-kakusei-none {
+    width: 0;
     background-position: 24px 0;
+}
+.i-kakusei-none:last-child {
+    width: 24px;
 }
 .i-kakusei-1 {
     background-position: 0 0;

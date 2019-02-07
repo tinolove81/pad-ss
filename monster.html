@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no'>
+    <link rel='stylesheet' href='./asset/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='./asset/css/index.css' />
+    <link rel='stylesheet' href='./asset/css/theme.css' />
+    <link rel='stylesheet' href='./asset/css/icon.css' />
+    <script src='./asset/js/vue.js'></script>
+    <script src='./asset/js/lazyload.min.js'></script>
+    <title>【パズドラ】Monster Info</title>
+    <script async src='https://www.googletagmanager.com/gtag/js?id=UA-130029385-1'></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-130029385-1');
+    </script>
+</head>
+
+<body>
+    <div id='app' :class='theme'>
+        <div class='overlay justify-content-center align-items-center' tabindex='-1' :class='{"d-none": !overlay}'>
+            <div class='loading-ring'></div>
+        </div>
+        <nav class='navbar navbar-dark shadow'>
+            <a class='navbar-brand'>【パズドラ】Monster Info</a>
+            <button type='button' id='btnswitchtheme' class='btn btn-sm navbar-toggler ml-auto' @click='toggletheme'>
+                <i class='icon-tool icon-theme-toggler'></i>
+            </button>
+            <button type='button' class='btn btn-sm navbar-toggler ml-1' data-toggle='collapse' data-target='#collapseNews' >
+                <i class='icon-tool icon-navbar-toggler'></i>
+            </button>
+        </nav>
+        <div class='container px-3 pb-2'>
+            <div id='f' class='row mt-1 align-items-center'>
+                <div class='puretext'><span>編號：</span></div>
+                <div class='col'>
+                    <div class='input-group input-group-sm'>
+                        <input type='text' class='form-control border border-primary bg-light' pattern='\d{0,4}' v-model='monsterinfo.Number'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='container px-3 pb-2'>
+            <div id='monsterarea' class='mb-2 p-2 border border-info rounded flex-column' style='width: 600px;min-height: 35px;'>
+                <template v-if='hasMonster'>
+                    <div class='card bg-transparent'>
+                        <div class='card-text border border-white rounded'>
+                            <div class='row no-gutters'>
+                                <div class='col-1'></div>
+                                <div class='col-2'>No. {{monsterinfo.Number}}</div>
+                                <div class='col text-warning'>{{monsterinfo.Rare}}</div>
+                            </div>
+                            <div class='row no-gutters'>
+                                <div class='col-1'></div>
+                                <div class='col'>{{monsterinfo.Name}}</div>
+                            </div>
+                        </div>
+                        <div class='card-img position-relative text-center'>
+                            <div class='row no-gutters text-left'>
+                                <div class='col'>
+                                    <template v-for='i in monsterinfo.Type'>
+                                        <i class='icon-type mx-1' :class='"it-" + i'></i>{{TYPE[i]}}
+                                    </template>
+                                </div>
+                            </div>
+                            <img class='m-auto bg-secondary' src='./asset/images/monster/a.jpg' style='min-width: 300px;min-height: 300px;'>
+                            <div class='row position-absolute w-100 no-gutters text-right' style='top: 0;'>
+                                <div class='col mr-1'>
+                                    <i class='icon-kakusei i-kakusei-none'></i><br/>
+                                    <template v-for='i in monsterinfo.Kakusei'>
+                                        <i class='icon-kakusei' :class='"i-kakusei-" + KAKUSEI[i]'></i><br/>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='card-text border border-white border-bottom-0 rounded'>
+                            <div class='row no-gutters'>
+                                <div class='col-auto'>
+                                    <div class='resultcardpic lazyload icon-attr' :class='monsterinfo.Attr' src='data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs='></div>
+                                </div>
+                                <div class='col'>三圍</div>
+                                <div class='col'>等級<br/>繼承</div>
+                                <div class='col'>コスト</div>
+                            </div>
+                            
+                        </div>
+                        <div class='card-text border border-white border-bottom-0 rounded'>
+                            <div class='row px-1 border-bottom no-gutters'>
+                                <div class='col-auto mr-1'><span class='border rounded'>スキル</span></div>
+                                <div class='col-auto text-primary'>{{monsterinfo.SkillName}}</div>
+                                <div class='col ml-auto text-right'>{{monsterinfo.SkillCD}}</div>
+                            </div>
+                            <div class='row no-gutters'>
+                                <div class='col mx-1'>{{monsterinfo.Skill}}</div>
+                            </div>
+                        </div>
+                        <div class='card-text border border-white rounded'>
+                            <div class='row px-1 border-bottom no-gutters'>
+                                <div class='col-auto mr-1'><span class='border rounded'>リーダースキル</span></div>
+                                <div class='col-auto text-success'>{{monsterinfo.LSkillName}}</div>
+                            </div>
+                            <div class='row no-gutters'>
+                                <div class='col mx-1'>{{monsterinfo.LSkill}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div id='footer' class='container px-3 pb-2 rounded-bottom'>
+            <div class='row mt-5'>
+                <small class='col-auto'>This site is fan-made and not affiliated with GungHo Online Entertainment Inc.<br/>
+                    All trademarks and copyrights belong to their respective owners, and are used here under the terms of fair use.<br/>
+                    All images and graphics are the property of GungHo Online Entertainment Inc.<br/>
+                </small>
+                <div class='col-auto ml-auto align-self-end'>&#64;&#116;&#105;&#110;&#111;&#108;&#111;&#118;&#101;&#56;&#49;</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src='./lib/MONSTER.js'></script>
+    <script src='./lib/SKILLTAG.js'></script>
+    <script src='./asset/js/monster.js'></script>
+</body>
+
+</html>

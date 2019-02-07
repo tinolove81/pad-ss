@@ -1,5 +1,6 @@
 /* 暗色佈景主題 */
 .theme-dark {
+    min-height: 100vh;
     color: #f8f9fa !important;
     background-color: #343a40 !important;
     border-color: #f8f9fa !important;
@@ -27,7 +28,7 @@
     background-color: #343a40 !important;
     border-color: #17a2b8 !important;
 }
-.theme-dark .input-group .form-control {
+.theme-dark .input-group .form-control:not([type="text"]) {
     color: #f8f9fa !important;
     background-color: #343a40 !important;
     border-color: #17a2b8 !important;
@@ -60,6 +61,7 @@
 
 /* 亮色佈景主題 */
 .theme-light {
+    min-height: 100vh;
     color: #343a40 !important;
     background-color: #f8f9fa !important;
     border-color: #343a40 !important;
@@ -87,7 +89,7 @@
     background-color: #f8f9fa !important;
     border-color: #17a2b8 !important;
 }
-.theme-light .input-group .form-control {
+.theme-light .input-group .form-control:not([type="text"]) {
     color: #343a40 !important;
     background-color: #f8f9fa !important;
     border-color: #17a2b8 !important;

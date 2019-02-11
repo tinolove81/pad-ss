@@ -42,10 +42,10 @@
     width: 24px;
     height: 24px;
     vertical-align: middle;
-    background-image: url('../images/BLOCK2.PNG');
+    background-image: url('../images/icon_drop.png');
     background-repeat: no-repeat;
-    background-position: 48px 48px;
-    background-size: 118px 118px;
+    background-position: top left;
+    background-size: 240px 24px;
 }
 .id-fire {
     background-position: 0 0;
@@ -60,79 +60,23 @@
     background-position: -72px 0;
 }
 .id-dark {
-    background-position: 0 -24px;
+    background-position: -96px 0;
 }
 .id-heart {
-    position: relative;
-}
-.id-heart::before {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 20px;
-    height: 20px;
-    background-image: url('../images/BLOCK2.PNG');
-    background-position: -142px -24px;
-    background-size: 118px 118px;
+    background-position: -120px 0;
 }
 .id-trash {
-    position: relative;
-}
-.id-trash::before {
-    content: '';
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 20px;
-    height: 20px;
-    background-image: url('../images/BLOCK2.PNG');
-    background-position: -44.5px -24px;
-    background-size: 118px 118px;
+    background-position: -144px 0;
 }
 .id-poison {
-    position: relative;
-}
-.id-poison::before {
-    content: '';
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: 22px;
-    height: 22px;
-    background-image: url('../images/BLOCK2.PNG');
-    background-position: 0 -96px;
-    background-size: 118px 118px;
+    background-position: -168px 0;
 }
 .id-mpoison {
-    background-position: 0 -48px;
+    background-position: -192px 0;
 }
 .id-bomb {
-    position: relative;
+    background-position: -216px 0;
 }
-.id-bomb::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 2px;
-    width: 20px;
-    height: 24px;
-    background-image: url('../images/BLOCK2.PNG');
-    background-position: -96px 0;
-    background-size: 118px 118px;
-}
-.id-bomb::after {
-    content: '';
-    position: absolute;
-    top: 12px;
-    left: 4.5px;
-    width: 15px;
-    height: 9px;
-    background-image: url('../images/BLOCK2.PNG');
-    background-position: -36px -44px;
-    background-size: 118px 118px;
-}
-
 .icon-attr {
     display: inline-block;
     width: 50px;

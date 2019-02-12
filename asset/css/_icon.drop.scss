@@ -1,0 +1,100 @@
+.icon-drop {
+    display: inline-block;
+    // width: 104px; height: 104px;
+    width: 24px; height: 24px;
+    vertical-align: middle;
+    background-image: url('../images/BLOCK2.PNG');
+    background-repeat: no-repeat;
+    background-position: 24px 24px;
+    // background-size: 512px 512px;
+    background-size: 118.15px auto;
+    &.id-fire {
+        background-position: 0 0;
+    }
+    &.id-water {
+        // background-position: -104px 0;
+        background-position: -24px 0;
+    }
+    &.id-wood {
+        // background-position: -208px 0;
+        background-position: -48px 0;
+    }
+    &.id-light {
+        // background-position: -312px 0;
+        background-position: -72px 0;
+    }
+    &.id-dark {
+        // background-position: 0 -104px;
+        background-position: 0 -24px;
+    }
+    &.id-heart {
+        position: relative;
+    }
+    &.id-heart::before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background-image: url('../images/BLOCK2.PNG');
+        background-position: -142px -24px;
+        background-size: 118.15px auto;
+    }
+    &.id-trash {
+        position: relative;
+    }
+    &.id-trash::before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background-image: url('../images/BLOCK2.PNG');
+        background-position: -44.5px -24px;
+        background-size: 118.15px auto;
+    }
+    &.id-poison {
+        position: relative;
+    }
+    &.id-poison::before {
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        width: 22px;
+        height: 22px;
+        background-image: url('../images/BLOCK2.PNG');
+        background-position: 0 -96px;
+        background-size: 118.15px auto;
+    }
+    &.id-mpoison {
+        background-position: 0 -48px;
+    }
+    &.id-bomb {
+        position: relative;
+    }
+    &.id-bomb::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 2px;
+        width: 20px;
+        height: 24px;
+        background-image: url('../images/BLOCK2.PNG');
+        background-position: -96px 0;
+        background-size: 118.15px auto;
+    }
+    &.id-bomb::after {
+        content: '';
+        position: absolute;
+        top: 12px;
+        left: 4.5px;
+        width: 15px; 
+        height: 9px;
+        background-image: url('../images/BLOCK2.PNG');
+        background-position: -36px -44px;
+        background-size: 118.15px auto;
+    }
+}

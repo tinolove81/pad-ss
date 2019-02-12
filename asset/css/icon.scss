@@ -1,0 +1,44 @@
+@import '_icon.attr.scss';
+@import '_icon.drop.scss';
+@import '_icon.type.scss';
+@import '_icon.kakusei.scss';
+
+.icon-tool {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: 24px 24px;
+}
+.icon-none::before {
+    content: '不限';
+    display: inline-block;
+    margin-top: 2px;
+    font-style: normal;
+}
+.icon-all::before {
+    content: '全版';
+    display: inline-block;
+    margin-top: 2px;
+    font-style: normal;
+}
+.icon-row::before {
+    content: '横排';
+    display: inline-block;
+    margin-top: 2px;
+    font-style: normal;
+}
+.icon-col::before {
+    content: '縦列';
+    display: inline-block;
+    margin-top: 2px;
+    font-style: normal;
+}
+.icon-random::before {
+    content: '隨機';
+    display: inline-block;
+    margin-top: 2px;
+    font-style: normal;
+}

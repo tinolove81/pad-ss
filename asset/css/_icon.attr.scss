@@ -1,0 +1,117 @@
+.icon-attr {
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    &.ia-fire::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: 0 0;
+        background-size: 256px 128px;
+    }
+    &.ia-water::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: -51px 0;
+        background-size: 256px 128px;
+    }
+    &.ia-wood::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: -102px 0;
+        background-size: 256px 128px;
+    }
+    &.ia-light::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: -153px 0;
+        background-size: 256px 128px;
+    }
+    &.ia-dark::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: -204px 0;
+        background-size: 256px 128px;
+    }
+    &.ia-s-fire::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: 0 -51px;
+        background-size: 256px 128px;
+    }
+    &.ia-s-water::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: -51px -51px;
+        background-size: 256px 128px;
+    }
+    &.ia-s-wood::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: -102px -51px;
+        background-size: 256px 128px;
+    }
+    &.ia-s-light::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: -153px -51px;
+        background-size: 256px 128px;
+    }
+    &.ia-s-dark::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background-image: url('../images/CARDFRAME2.png');
+        background-position: -204px -51px;
+        background-size: 256px 128px;
+    }
+}

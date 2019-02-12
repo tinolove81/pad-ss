@@ -1,0 +1,64 @@
+.icon-type {
+    display: inline-block;
+    /* width: 31px; height: 31px; */
+    width: 24px;
+    height: 25px;
+    vertical-align: middle;
+    background-image: url('../images/EGGS.png');
+    background-repeat: no-repeat;
+    background-position: 24px 24px;
+    /* background-size: 1024px 512px; */
+    background-size: 792.77px auto;
+    &.it-god {
+        /* background-position: -958px -74px; */
+        background-position: -741.67px -57.29px;
+    }
+    &.it-dragon {
+        /* background-position: -922px -74px; */
+        background-position: -713.80px -57.29px;
+    }
+    &.it-devil {
+        /* background-position: -574px -186px; */
+        background-position: -444.38px -144.00px;
+    }
+    &.it-machine {
+        /* background-position: -574px -222px; */
+        background-position: -444.38px -171.87px;
+    }
+    &.it-balance {
+        /* background-position: -814px -74px; */
+        background-position: -630.19px -57.29px;
+    }
+    &.it-attack {
+        /* background-position: -574px -150px; */
+        background-position: -444.38px -116.12px;
+    }
+    &.it-vitality {
+        /* background-position: -850px -74px; */
+        background-position: -658.06px -57.29px;
+    }
+    &.it-recovery {
+        /* background-position: -886px -74px; */
+        background-position: -685.93px -57.29px;
+    }
+    &.it-awaken {
+        /* background-position: -574px -258px; */
+        background-position: -444.38px -199.74px;
+    }
+    &.it-strong {
+        /* background-position: -574px -330px; */
+        background-position: -444.38px -255.48px;
+    }
+    &.it-sale {
+        /* background-position: -574px -366px; */
+        background-position: -444.38px -283.35px;
+    }
+    &.it-evo {
+        /* background-position: -458px -430px; */
+        background-position: -354.58px -332.90px;
+    }
+    &.it-special {
+        /* background-position: -574px -294px; */
+        background-position: -444.38px -227.61px;
+    }
+}

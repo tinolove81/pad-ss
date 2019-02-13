@@ -87,7 +87,7 @@ function FilterEntry(mCotainer) {
         } else if (mType == 'Type') {
             this.AllFilter['Type'] = mData;
         } else if (mType == 'Kakusei') {
-            this.AllFilter['Kakusei'] = [];
+            this.AllFilter['Kakusei'] = [0];
             $('#filter_kakusei select', this.cotainer).each((i, e) => {
                 this.AllFilter['Kakusei'].push(e.value);
             });
@@ -269,6 +269,8 @@ function ResultArea(mCotainer, mTemplate, mControl) {
                     .attr('data-rare', M['Rare'].replace('★', ''))
                     .attr('data-skillcdmin', M['ActiveSkillCD'].replace('）', '').split('（')[0])
                     .attr('data-skillcdmax', M['ActiveSkillCD'].replace('）', '').split('（')[1]);
+                tmpl.find('.resultcardpic').eq(0).addClass(`icon-card icon-card-${('000' + (Math.floor(e['no'] / 100) + ((e['no'] % 100 == 0) ? 0 : 1))).substr(-3)}`);
+                tmpl.find('.resultcardpic').eq(0).addClass(`ic-${('000' + ((e['no'] % 100 == 0) ? '100': e['no'] % 100)).substr(-3)}`);
                 tmpl.find('.resultcardpic').eq(0).addClass('icon-attr');
                 tmpl.find('.resultcardpic').eq(0).addClass(`ia-${M['MainAttribute'].toLowerCase()} ${((M['SubAttribute'] == 'None') ? '' : 'ia-s-' + M['SubAttribute'].toLowerCase())}`);
                 tmpl.find('.resultcardintro').eq(0).html(e['no']);

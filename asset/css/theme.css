@@ -13,9 +13,14 @@
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 .theme-dark nav #collapseNews .card {
-    color: #f8f9fa;
-    background-color: #343a40;
-    border-color: #f8f9fa;
+    color: #f8f9fa !important;
+    background-color: #343a40 !important;
+    border-color: #f8f9fa !important;
+}
+.theme-dark .modal-content {
+    color: #f8f9fa !important;
+    background-color: #343a40 !important;
+    border-color: #f8f9fa !important;
 }
 .theme-dark .btn-group label {
     color: #f8f9fa !important;
@@ -74,6 +79,11 @@
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }
 .theme-light nav #collapseNews .card {
+    color: #343a40 !important;
+    background-color: #f8f9fa !important;
+    border-color: #343a40 !important;
+}
+.theme-light .modal-content {
     color: #343a40 !important;
     background-color: #f8f9fa !important;
     border-color: #343a40 !important;

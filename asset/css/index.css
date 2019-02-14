@@ -21,6 +21,17 @@ body::before {
     z-index: -1;
     opacity: .3;
 }
+.overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #EFEFEF;
+    opacity: .5;
+    z-index: 2000;
+}
 nav #collapseNews {
     position: absolute;
     width: auto;
@@ -33,16 +44,13 @@ nav #collapseNews img {
     width: 250px;
     height: auto;
 }
-.overlay {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #EFEFEF;
-    opacity: .5;
-    z-index: 2000;
+.modal.fade:not(.show).right .modal-dialog {
+    -webkit-transform: translate(50%, 0);
+    transform: translate(50%, 0);
+}
+.modal.fade:not(.show).left .modal-dialog {
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
 }
 .container .puretext {
     display: flex;

@@ -199,6 +199,7 @@ function RuleLibrary(mCotainer, mTemplate) {
 }
 
 function ResultArea(mCotainer, mTemplate, mControl) {
+    let _this = this;
     this.cotainer = $(mCotainer);
     this.tmpl = $(mTemplate);
     this.control = $(mControl);
@@ -300,13 +301,28 @@ function ResultArea(mCotainer, mTemplate, mControl) {
                     return +b['dataset'][fn] - +a['dataset'][fn];
                 }
             });
-            list.each((i, e) => {
-                let n = e['dataset']['number'];
-                let M = MONSTER[n - 1];
-                filterEntry.test(M) ? $(e).removeClass('filtered') : $(e).addClass('filtered');
-                $(e).find('.resultcardintro').html(e['dataset'][fn]);
-                this.cotainer.append(e);
-            });
+
+            let i = 0;
+            let timer = setInterval(
+                function goNext() {
+                    console.log('sett', i);
+                    if (i >= list.length) {
+                        clearTimeout(timer);
+                        return;
+                    }
+                    for (i; i < list.length; i++) {
+                        let e = list[i];
+                        let n = e['dataset']['number'];
+                        let M = MONSTER[n - 1];
+                        filterEntry.test(M) ? $(e).removeClass('filtered') : $(e).addClass('filtered');
+                        $(e).find('.resultcardintro').html(e['dataset'][fn]);
+                        _this.cotainer.append(e);
+                    }
+                },
+                0
+            );
+
+
         }
     };
 }

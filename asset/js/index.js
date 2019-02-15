@@ -54,9 +54,7 @@ $('#btnswitchtheme').on('click', (e) => {
 
 function FilterEntry(mCotainer) {
     this.cotainer = $(mCotainer);
-
     this.hasFilter = false;
-    this.hasFilter_kakusei = false;
     this.AllFilter = {
         'MainAttribute': 'none',
         'SubAttribute': 'none',
@@ -65,21 +63,67 @@ function FilterEntry(mCotainer) {
     };
 
     this.init = (() => {
-        $('#filter_mainattr input', this.cotainer).on('change', (e) => {
-            this.addFilter('MainAttribute', e.target.value);
+        $('#filter_main_attr input', this.cotainer).on('change', (e) => {
+            let t = $(e.target);
+            let i = t.siblings('i');
+            if (e.target.checked) {
+                i.removeClass('icon-opacity-5');
+                $('#filter_main_attr input', this.cotainer).not(t).prop('checked', false);
+                $('#filter_main_attr i', this.cotainer).not(i).addClass('icon-opacity-5');
+                this.addFilter('MainAttribute', e.target.value);
+            } else {
+                i.addClass('icon-opacity-5');
+                this.addFilter('MainAttribute', 'none');
+            }
         });
-        $('#filter_subattr input', this.cotainer).on('change', (e) => {
-            this.addFilter('SubAttribute', e.target.value);
+        $('#filter_sub_attr input', this.cotainer).on('change', (e) => {
+            let t = $(e.target);
+            let i = t.siblings('i');
+            if (e.target.checked) {
+                i.removeClass('icon-opacity-5');
+                $('#filter_sub_attr input', this.cotainer).not(t).prop('checked', false);
+                $('#filter_sub_attr i', this.cotainer).not(i).addClass('icon-opacity-5');
+                this.addFilter('SubAttribute', e.target.value);
+            } else {
+                i.addClass('icon-opacity-5');
+                this.addFilter('SubAttribute', 'none');
+            }
         });
         $('#filter_type input', this.cotainer).on('change', (e) => {
-            this.addFilter('Type', e.target.value);
+            let t = $(e.target);
+            let i = t.siblings('i');
+            if (e.target.checked) {
+                i.removeClass('icon-opacity-5');
+                $('#filter_type input', this.cotainer).not(t).prop('checked', false);
+                $('#filter_type i', this.cotainer).not(i).addClass('icon-opacity-5');
+                this.addFilter('Type', e.target.value);
+            } else {
+                i.addClass('icon-opacity-5');
+                this.addFilter('Type', 'none');
+            }
         });
-        $('#filter_kakusei select', this.cotainer).on('change', (e) => {
-            this.addFilter('Kakusei');
+        $('#filter_kakusei input', this.cotainer).on('click', (e) => {
+            let frame = $('#filter_kakusei_frame', this.cotainer);
+            let selected = $('i', frame);
+            if (selected.length < 10) {
+                let node_k = $.parseHTML(iconKakuseiTpl(e.target.value));
+                $(node_k).attr('data-val', e.target.value).on('click', (e) => {
+                    let idx = this.addFilter('Kakusei', e.target.dataset.val, 'remove');
+                    if (idx > -1) { $('i', frame).eq(idx + 1).remove(); }
+                });
+                let n = selected.add(node_k);
+                n.sort((a, b) => {
+                    return +a['dataset']['val'] - +b['dataset']['val']
+                });
+                frame.append(n);
+                this.addFilter('Kakusei', e.target.value);
+            } else {
+                alert('目前最多搜尋9個覺醒！');
+            }
         });
     })();
     
-    this.addFilter = (mType, mData) => {
+    this.addFilter = (mType, mData, mAct) => {
         if (mType == 'MainAttribute') {
             this.AllFilter['MainAttribute'] = mData;
         } else if (mType == 'SubAttribute') {
@@ -87,16 +131,22 @@ function FilterEntry(mCotainer) {
         } else if (mType == 'Type') {
             this.AllFilter['Type'] = mData;
         } else if (mType == 'Kakusei') {
-            this.AllFilter['Kakusei'] = [0];
-            $('#filter_kakusei select', this.cotainer).each((i, e) => {
-                this.AllFilter['Kakusei'].push(e.value);
-            });
+            if (mAct == 'remove') {
+                let i = this.AllFilter['Kakusei'].indexOf(mData);
+                if (i > -1) {
+                    this.AllFilter['Kakusei'].splice(i, 1);
+                    return i;
+                } else {
+                    return false;
+                }
+            } else if (mAct == 'clear') {
+                this.AllFilter['Kakusei'] = [];
+            } else {
+                this.AllFilter['Kakusei'].push(mData);
+            }
         }
-        this.hasFilter_kakusei = !this.AllFilter['Kakusei'].every((val) => {
-            return val == '0';
-        });
         this.hasFilter = this.AllFilter['MainAttribute'] != 'none' || this.AllFilter['SubAttribute'] != 'none'
-            || this.AllFilter['Type'] != 'none' || this.hasFilter_kakusei;
+            || this.AllFilter['Type'] != 'none' || this.AllFilter['Kakusei'].length > 0;
 
         resultArea.finalPublish();
     }
@@ -112,12 +162,10 @@ function FilterEntry(mCotainer) {
             if (this.AllFilter['SubAttribute'] != 'none' && this.AllFilter['SubAttribute'] != M_subattr) {
                 return false;
             }
-            if (this.AllFilter['Type'] != 'none') {
-                if (M_type.indexOf(this.AllFilter['Type']) == -1) {
-                    return false;
-                }
+            if (this.AllFilter['Type'] != 'none' && M_type.indexOf(this.AllFilter['Type']) == -1) {
+                return false;
             }
-            if (this.hasFilter_kakusei) {
+            if (this.AllFilter['Kakusei'].length > 0) {
                 let filter = [];
                 this.AllFilter['Kakusei'].forEach((e, i) => {
                     if (e == '0') return false;
@@ -143,6 +191,20 @@ function FilterEntry(mCotainer) {
         } else {
             return true;
         }
+    }
+    this.resetFilter = () => {
+        $('#filter_main_attr input', this.cotainer).prop('checked', false);
+        $('#filter_main_attr i', this.cotainer).addClass('icon-opacity-5');
+        $('#filter_sub_attr input', this.cotainer).prop('checked', false);
+        $('#filter_sub_attr i', this.cotainer).addClass('icon-opacity-5');
+        $('#filter_type input', this.cotainer).prop('checked', false);
+        $('#filter_type i', this.cotainer).addClass('icon-opacity-5');
+        $('#filter_kakusei_frame i:not(:first-child)', this.cotainer).remove();
+
+        this.addFilter('MainAttribute', 'none');
+        this.addFilter('SubAttribute', 'none');
+        this.addFilter('Type', 'none');
+        this.addFilter('Kakusei', 'none', 'clear');
     }
 }
 
@@ -334,15 +396,17 @@ function iconDropTpl(n) {
         return `<i class='icon-drop id-${n}'></i>`;
     }
 }
-function iconKakuseiTpl(n) {
-    if (n.length) {
+function iconKakuseiTpl(mName) {
+    if (!isNaN(mName)) {
+        return `<i class='icon-kakusei ik-${mName}'></i>`;
+    } else if (mName.length) {
         let tpl = [];
-        for (let i = 0;i < n.length; i++) {
-            tpl.push(`<i class='icon-kakusei ik-${KAKUSEI[n[i]]}'></i>`);
+        for (let i = 0;i < mName.length; i++) {
+            tpl.push(`<i class='icon-kakusei ik-${KAKUSEI[mName[i]]}'></i>`);
         }
         return tpl.join('');
     }
-    return `<i class='icon-kakusei ik-none'></i>`;
+    return `<i class='icon-kakusei ik-0'></i>`;
 }
 
 function now(a) {

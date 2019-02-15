@@ -25,7 +25,10 @@ console.log(JSON.stringify(b));
     background-position: 25px 25px;
     /* background-size: 1024px 512px; */
     background-size: 792.77px auto;
-    &.ik-none {
+    &.ik-0 {
+        &:not(:last-child) {
+            width: 0; height: 0;
+        }
         background-position: 24px 24px;
     }
     &.ik-1 {

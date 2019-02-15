@@ -175,11 +175,14 @@ nav #collapseNews img {
 
 
 /** custom Bootstrap Like**/
-.right-0 {
-    right: 0;
+.right-0 { right: 0; }
+.cursor-point { cursor: pointer; }
+.cursor-notallow { cursor: not-allowed; }
+.less-gutters > .col,
+.less-gutters > [class*="col-"] {
+    padding-right: .3rem;
+    padding-left: .3rem;
 }
-
-
 
 
 

@@ -19,7 +19,6 @@ const KAKUSEI_N = [null,
 let retry = 0;
 let timestamp;
 
-let filterEntry = new FilterEntry('#filterentry');
 let ruleLibrary = new RuleLibrary('#rulelibrary', '#rule-library-tpl');
 let resultArea = new ResultArea('#resultarea', '#result-area-tpl', '#resultconfig');
 
@@ -52,8 +51,9 @@ $('#btnswitchtheme').on('click', (e) => {
     }
 });
 
-function FilterEntry(mCotainer) {
-    this.cotainer = $(mCotainer);
+let filterEntry = new FilterEntry('#filterentry');
+function FilterEntry(mContainer) {
+    this.container = $(mContainer);
     this.hasFilter = false;
     this.AllFilter = {
         'MainAttribute': 'none',
@@ -63,47 +63,47 @@ function FilterEntry(mCotainer) {
     };
 
     this.init = (() => {
-        $('#filter_main_attr input', this.cotainer).on('change', (e) => {
+        $('#filter_main_attr input', this.container).on('change', (e) => {
             let t = $(e.target);
             let i = t.siblings('i');
             if (e.target.checked) {
                 i.removeClass('icon-opacity-5');
-                $('#filter_main_attr input', this.cotainer).not(t).prop('checked', false);
-                $('#filter_main_attr i', this.cotainer).not(i).addClass('icon-opacity-5');
+                $('#filter_main_attr input', this.container).not(t).prop('checked', false);
+                $('#filter_main_attr i', this.container).not(i).addClass('icon-opacity-5');
                 this.addFilter('MainAttribute', e.target.value);
             } else {
                 i.addClass('icon-opacity-5');
                 this.addFilter('MainAttribute', 'none');
             }
         });
-        $('#filter_sub_attr input', this.cotainer).on('change', (e) => {
+        $('#filter_sub_attr input', this.container).on('change', (e) => {
             let t = $(e.target);
             let i = t.siblings('i');
             if (e.target.checked) {
                 i.removeClass('icon-opacity-5');
-                $('#filter_sub_attr input', this.cotainer).not(t).prop('checked', false);
-                $('#filter_sub_attr i', this.cotainer).not(i).addClass('icon-opacity-5');
+                $('#filter_sub_attr input', this.container).not(t).prop('checked', false);
+                $('#filter_sub_attr i', this.container).not(i).addClass('icon-opacity-5');
                 this.addFilter('SubAttribute', e.target.value);
             } else {
                 i.addClass('icon-opacity-5');
                 this.addFilter('SubAttribute', 'none');
             }
         });
-        $('#filter_type input', this.cotainer).on('change', (e) => {
+        $('#filter_type input', this.container).on('change', (e) => {
             let t = $(e.target);
             let i = t.siblings('i');
             if (e.target.checked) {
                 i.removeClass('icon-opacity-5');
-                $('#filter_type input', this.cotainer).not(t).prop('checked', false);
-                $('#filter_type i', this.cotainer).not(i).addClass('icon-opacity-5');
+                $('#filter_type input', this.container).not(t).prop('checked', false);
+                $('#filter_type i', this.container).not(i).addClass('icon-opacity-5');
                 this.addFilter('Type', e.target.value);
             } else {
                 i.addClass('icon-opacity-5');
                 this.addFilter('Type', 'none');
             }
         });
-        $('#filter_kakusei input', this.cotainer).on('click', (e) => {
-            let frame = $('#filter_kakusei_frame', this.cotainer);
+        $('#filter_kakusei input', this.container).on('click', (e) => {
+            let frame = $('#filter_kakusei_frame', this.container);
             let selected = $('i', frame);
             if (selected.length < 10) {
                 let node_k = $.parseHTML(iconKakuseiTpl(e.target.value));
@@ -113,13 +113,23 @@ function FilterEntry(mCotainer) {
                 });
                 let n = selected.add(node_k);
                 n.sort((a, b) => {
-                    return +a['dataset']['val'] - +b['dataset']['val']
+                    return +a['dataset']['val'] - +b['dataset']['val'];
                 });
                 frame.append(n);
                 this.addFilter('Kakusei', e.target.value);
             } else {
-                alert('目前最多搜尋9個覺醒！');
+                alert('Too much です！');
             }
+        });
+        $('#filter_btn_submit', this.container).on('click', (e) => {
+            this.container.modal('hide');
+            resultArea.finalPublish();
+        });
+        $('#filter_btn_clear', this.container).on('click', (e) => {
+            this.resetFilter();
+        });
+        $('#filter_btn_cancel', this.container).on('click', (e) => {
+            this.container.modal('hide');
         });
     })();
     
@@ -146,9 +156,21 @@ function FilterEntry(mCotainer) {
             }
         }
         this.hasFilter = this.AllFilter['MainAttribute'] != 'none' || this.AllFilter['SubAttribute'] != 'none'
-            || this.AllFilter['Type'] != 'none' || this.AllFilter['Kakusei'].length > 0;
+                        || this.AllFilter['Type'] != 'none' || this.AllFilter['Kakusei'].length > 0;
+    }
+    this.resetFilter = () => {
+        $('#filter_main_attr input', this.container).prop('checked', false);
+        $('#filter_main_attr i', this.container).addClass('icon-opacity-5');
+        $('#filter_sub_attr input', this.container).prop('checked', false);
+        $('#filter_sub_attr i', this.container).addClass('icon-opacity-5');
+        $('#filter_type input', this.container).prop('checked', false);
+        $('#filter_type i', this.container).addClass('icon-opacity-5');
+        $('#filter_kakusei_frame i:not(:first-child)', this.container).remove();
 
-        resultArea.finalPublish();
+        this.addFilter('MainAttribute', 'none');
+        this.addFilter('SubAttribute', 'none');
+        this.addFilter('Type', 'none');
+        this.addFilter('Kakusei', 'none', 'clear');
     }
     this.test = (mMon) => {
         let M_mainattr = mMon['MainAttribute'];
@@ -192,24 +214,10 @@ function FilterEntry(mCotainer) {
             return true;
         }
     }
-    this.resetFilter = () => {
-        $('#filter_main_attr input', this.cotainer).prop('checked', false);
-        $('#filter_main_attr i', this.cotainer).addClass('icon-opacity-5');
-        $('#filter_sub_attr input', this.cotainer).prop('checked', false);
-        $('#filter_sub_attr i', this.cotainer).addClass('icon-opacity-5');
-        $('#filter_type input', this.cotainer).prop('checked', false);
-        $('#filter_type i', this.cotainer).addClass('icon-opacity-5');
-        $('#filter_kakusei_frame i:not(:first-child)', this.cotainer).remove();
-
-        this.addFilter('MainAttribute', 'none');
-        this.addFilter('SubAttribute', 'none');
-        this.addFilter('Type', 'none');
-        this.addFilter('Kakusei', 'none', 'clear');
-    }
 }
 
-function RuleLibrary(mCotainer, mTemplate) {
-    this.cotainer = $(mCotainer);
+function RuleLibrary(mContainer, mTemplate) {
+    this.container = $(mContainer);
     this.template = $(mTemplate);
 
     this.AllRule = {};
@@ -232,7 +240,7 @@ function RuleLibrary(mCotainer, mTemplate) {
         let A = mData.split('-')[0];
         let B = mData.split('-')[1];
         this.AllRule['k' + this.nRules] = `${ELEMENT[A]}轉${ELEMENT[B]}`;
-        this.cotainer.append(tpl
+        this.container.append(tpl
             .replace(/{{nRules}}/g, 'k' + this.nRules)
             .replace('{{A}}', iconDropTpl(A))
             .replace('{{B}}', iconDropTpl(B))
@@ -260,9 +268,9 @@ function RuleLibrary(mCotainer, mTemplate) {
     };
 }
 
-function ResultArea(mCotainer, mTemplate, mControl) {
+function ResultArea(mContainer, mTemplate, mControl) {
     let _this = this;
-    this.cotainer = $(mCotainer);
+    this.container = $(mContainer);
     this.tmpl = $(mTemplate);
     this.control = $(mControl);
 
@@ -283,8 +291,8 @@ function ResultArea(mCotainer, mTemplate, mControl) {
         });
         this.control.find('input[name="resultconfig_style"]').on('change', (e) => {
             this.style = $(e.target).val();
-            this.cotainer.removeClass('style-list').removeClass('style-icon');
-            this.cotainer.addClass('style-' + this.style);
+            this.container.removeClass('style-list').removeClass('style-icon');
+            this.container.addClass('style-' + this.style);
         });
     })();
 
@@ -352,7 +360,7 @@ function ResultArea(mCotainer, mTemplate, mControl) {
     };
     // FinalPublish from [$collectresult](element array) by {collectElement} around {sort} and {filter} to front side
     this.finalPublish = () => {
-        this.cotainer.html('');
+        this.container.html('');
         if (this.$collectresult.length) {
             let fn = this.sort;
             let order = this.sortorder;
@@ -378,7 +386,7 @@ function ResultArea(mCotainer, mTemplate, mControl) {
                         let M = MONSTER[n - 1];
                         filterEntry.test(M) ? $(e).removeClass('filtered') : $(e).addClass('filtered');
                         $(e).find('.resultcardintro').html(e['dataset'][fn]);
-                        _this.cotainer.append(e);
+                        _this.container.append(e);
                     }
                 },
                 0

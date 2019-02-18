@@ -19,7 +19,6 @@ const KAKUSEI_N = [null,
 let retry = 0;
 let timestamp;
 
-let ruleLibrary = new RuleLibrary('#rulelibrary', '#rule-library-tpl');
 let resultArea = new ResultArea('#resultarea', '#result-area-tpl', '#resultconfig');
 
 window.onload = () => {
@@ -216,7 +215,8 @@ function FilterEntry(mContainer) {
     }
 }
 
-function RuleLibrary(mContainer, mTemplate) {
+let ruleentry = new RuleEntry('#rulelibrary', '#rule-library-tpl');
+function RuleEntry(mContainer, mTemplate) {
     this.container = $(mContainer);
     this.template = $(mTemplate);
 

@@ -28,6 +28,9 @@
 .theme-dark .btn-group label.active {
     color: #f8f9fa !important;
 }
+.theme-dark .dropdown button {
+    color: #f8f9fa !important;
+}
 .theme-dark .input-group .input-group-text {
     color: #17a2b8 !important;
     background-color: #343a40 !important;
@@ -93,6 +96,9 @@
 }
 .theme-light .btn-group label.active {
     color: #f8f9fa !important;
+}
+.theme-light .dropdown button {
+    color: #343a40 !important;
 }
 .theme-light .input-group .input-group-text {
     color: #17a2b8 !important;

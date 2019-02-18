@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Imprima');
 @import url('https://fonts.googleapis.com/css?family=Noto Sans JP');
+@import 'icon.min.css';
 @media (min-width: 1450px) {
     .container {
         max-width: 1380px;

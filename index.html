@@ -193,67 +193,63 @@
             </div>
         </div>
     </div>
-    <div id='ruleentry' class='container px-3 pb-2'>
-        <div class='row my-2 align-items-center'>
+    <div id='ruleentry' class='container px-3'>
+        <div class='row my-1 align-items-center'>
             <div class='col-auto mr-auto'><span class='text-warning'>★</span><span>スキル検索</span></div>
             <div class='col-auto'><button type='button' class='btn btn-sm btn-success' data-toggle='modal' data-target='#filterentry'>フィルタ</button></div>
         </div>
-        <div class='row mb-2 align-items-center'>
-            <div class='col-12 col-lg-auto'><span>変換元：</span></div>
-            <div id='changeAarea' class='col-12 col-lg-auto'>
-                <div class='btn-group btn-group-sm btn-group-toggle flex-wrap' data-toggle='buttons'>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='none' autocomplete='off'><i class='icon-none'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='all' autocomplete='off'><i class='icon-all'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='row' autocomplete='off'><i class='icon-row'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='col' autocomplete='off'><i class='icon-col'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='random' autocomplete='off'><i class='icon-random'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='fire' autocomplete='off'><i class='icon-drop id-fire'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='water' autocomplete='off'><i class='icon-drop id-water'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='wood' autocomplete='off'><i class='icon-drop id-wood'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='light' autocomplete='off'><i class='icon-drop id-light'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='dark' autocomplete='off'><i class='icon-drop id-dark'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='heart' autocomplete='off'><i class='icon-drop id-heart'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='trash' autocomplete='off'><i class='icon-drop id-trash'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='poison' autocomplete='off'><i class='icon-drop id-poison'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='mpoison' autocomplete='off'><i class='icon-drop id-mpoison'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='bomb' autocomplete='off'><i class='icon-drop id-bomb'></i></label>
+        <div class='row mb-1 px-3'>
+            <div class='col-12 d-flex flex-column'>
+                <div class='row py-1 align-items-center border border-bottom-0 border-warning rounded-top'>
+                    <div class='col-12 col-lg-auto'><span>変換元：</span></div>
+                    <div id='rule_a_change' class='col-12 col-lg-auto'>
+                        <div class='btn-group btn-group-sm btn-group-toggle flex-wrap' data-toggle='buttons'>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='none' autocomplete='off'><i class='icon-none'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='all' autocomplete='off'><i class='icon-all'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='row' autocomplete='off'><i class='icon-row'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='col' autocomplete='off'><i class='icon-col'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='random' autocomplete='off'><i class='icon-random'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='fire' autocomplete='off'><i class='icon-drop id-fire'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='water' autocomplete='off'><i class='icon-drop id-water'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='wood' autocomplete='off'><i class='icon-drop id-wood'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='light' autocomplete='off'><i class='icon-drop id-light'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='dark' autocomplete='off'><i class='icon-drop id-dark'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='heart' autocomplete='off'><i class='icon-drop id-heart'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='trash' autocomplete='off'><i class='icon-drop id-trash'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='poison' autocomplete='off'><i class='icon-drop id-poison'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='mpoison' autocomplete='off'><i class='icon-drop id-mpoison'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_A' value='bomb' autocomplete='off'><i class='icon-drop id-bomb'></i></label>
+                        </div>
+                    </div>
                 </div>
-                <div class='dropdown'>
-                    <button class='btn btn-sm btn-outline-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown'>Dropdown button</button>
-                    <div class='dropdown-menu'>
-                        <a class='dropdown-item' href="#">Action</a>
-                        <a class='dropdown-item' href="#">Another action</a>
-                        <a class='dropdown-item' href="#">Something else here</a>
+                <div class='row py-1 align-items-center border-right border-left border-warning'>
+                    <div class='col-auto mx-auto'><i class='icon-arrow-down'></i><i class='icon-arrow-down'></i><i class='icon-arrow-down'></i></div>
+                </div>
+                <div class='row py-1 align-items-center border border-top-0 border-warning rounded-bottom'>
+                    <div class='col-12 col-lg-auto'><span>変換先：</span></div>
+                    <div id='rule_b_change' class='col-12 col-lg-auto'>
+                        <div class='btn-group btn-group-sm btn-group-toggle flex-wrap' data-toggle='buttons'>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='fire' autocomplete='off'><i class='icon-drop id-fire'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='water' autocomplete='off'><i class='icon-drop id-water'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='wood' autocomplete='off'><i class='icon-drop id-wood'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='light' autocomplete='off'><i class='icon-drop id-light'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='dark' autocomplete='off'><i class='icon-drop id-dark'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='heart' autocomplete='off'><i class='icon-drop id-heart'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='trash' autocomplete='off'><i class='icon-drop id-trash'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='poison' autocomplete='off'><i class='icon-drop id-poison'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='mpoison' autocomplete='off'><i class='icon-drop id-mpoison'></i></label>
+                            <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='bomb' autocomplete='off'><i class='icon-drop id-bomb'></i></label>
+                        </div>
+                    </div>
+                    <div class='col-auto ml-auto'>
+                        <button id='rule_btn_AddRule' class='btn btn-success btn-sm'>＋</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class='row mb-2 align-items-center'>
-            <div class='col-auto mx-auto'><i class='icon-arrow-down'></i><i class='icon-arrow-down'></i><i class='icon-arrow-down'></i></div>
-        </div>
-        <div class='row mb-2 align-items-center'>
-            <div class='col-12 col-lg-auto'><span>変換先：</span></div>
-            <div id='changeBarea' class='col-12 col-sm-auto'>
-                <div class='btn-group btn-group-sm btn-group-toggle flex-wrap' data-toggle='buttons'>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='fire' autocomplete='off'><i class='icon-drop id-fire'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='water' autocomplete='off'><i class='icon-drop id-water'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='wood' autocomplete='off'><i class='icon-drop id-wood'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='light' autocomplete='off'><i class='icon-drop id-light'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='dark' autocomplete='off'><i class='icon-drop id-dark'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='heart' autocomplete='off'><i class='icon-drop id-heart'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='trash' autocomplete='off'><i class='icon-drop id-trash'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='poison' autocomplete='off'><i class='icon-drop id-poison'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='mpoison' autocomplete='off'><i class='icon-drop id-mpoison'></i></label>
-                    <label class='btn btn-outline-primary'><input type='radio' name='Change_B' value='bomb' autocomplete='off'><i class='icon-drop id-bomb'></i></label>
-                </div>
-            </div>
-            <div class='col-auto ml-auto'>
-                <button id='rule_btn_AddRule' class='btn btn-success btn-sm'>＋</button>
-            </div>
-        </div>
-        <div class='row mb-2 align-items-center'>
-            <div id='rulelibrary' class='mt-1'>
-                <div id='ruletips' class='puretext mb-1 border border-info rounded'><span>スキル検索条件を作成する</span></div>
+        <div class='row mb-1 align-items-center'>
+            <div id='rule_frame' class='col-12'>
+                <div id='ruletips' class='p-1 border border-info rounded'><span>スキル検索条件を作成する</span></div>
             </div>
         </div>
     </div>
@@ -301,7 +297,7 @@
             <small class='col-auto'>This site is fan-made and not affiliated with GungHo Online Entertainment Inc.</small><br/>
             <small class='col-auto'>All trademarks and copyrights belong to their respective owners, and are used here under the terms of fair use.</small><br/>
             <small class='col-auto'>All images and graphics are the property of GungHo Online Entertainment Inc.</small><br/>
-            <div class='col-auto ml-auto align-self-end'>&#64;&#116;&#105;&#110;&#111;&#108;&#111;&#118;&#101;&#56;&#49; <small class='text-warning'>v.0.2.18(1732)</small></div>
+            <div class='col-auto ml-auto align-self-end'>&#64;&#116;&#105;&#110;&#111;&#108;&#111;&#118;&#101;&#56;&#49; <small class='text-warning'>v.0.2.19(1456)</small></div>
         </div>
     </div>
 

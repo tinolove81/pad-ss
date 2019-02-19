@@ -215,7 +215,7 @@ function FilterEntry(mContainer) {
     }
 }
 
-let ruleentry = new RuleEntry('#rulelibrary', '#rule-library-tpl');
+let ruleEntry = new RuleEntry('#ruleentry', '#rule-library-tpl');
 function RuleEntry(mContainer, mTemplate) {
     this.container = $(mContainer);
     this.template = $(mTemplate);
@@ -224,9 +224,9 @@ function RuleEntry(mContainer, mTemplate) {
     this.nRules = 0;
 
     this.init = (() => {
-        $('#btnAddRule').on('click', (e) => {
-            let A = $('input[name="Change_A"]:checked').val();
-            let B = $('input[name="Change_B"]:checked').val();
+        $('#rule_btn_AddRule', this.container).on('click', (e) => {
+            let A = $('#rule_a_change input:checked', this.container).val();
+            let B = $('#rule_b_change input:checked', this.container).val();
             if (A && B) {
                 this.addRule(`${A}-${B}`);
             } else {
@@ -240,11 +240,11 @@ function RuleEntry(mContainer, mTemplate) {
         let A = mData.split('-')[0];
         let B = mData.split('-')[1];
         this.AllRule['k' + this.nRules] = `${ELEMENT[A]}轉${ELEMENT[B]}`;
-        this.container.append(tpl
+        $('#rule_frame', this.container).append(tpl
             .replace(/{{nRules}}/g, 'k' + this.nRules)
             .replace('{{A}}', iconDropTpl(A))
             .replace('{{B}}', iconDropTpl(B))
-            );
+        );
             
         $(`#btnDelRule${'k' + this.nRules}`).on('click', (e) => {
             $(e.target).closest('.input-group').fadeOut('fast', () => {
@@ -298,7 +298,7 @@ function ResultArea(mContainer, mTemplate, mControl) {
 
     // SearchMonster from [SkillTag] by {AddRule} export [tag raw data]
     this.searchMonster = () => {
-        let tag = ruleLibrary.getTag();
+        let tag = ruleEntry.getTag();
         if (tag.length) {
             let mon = [];
             let tmp = [];

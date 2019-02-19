@@ -19,8 +19,6 @@ const KAKUSEI_N = [null,
 let retry = 0;
 let timestamp;
 
-let resultArea = new ResultArea('#resultarea', '#result-area-tpl', '#resultconfig');
-
 window.onload = () => {
     (function loadDefault () {
         if (retry < 10) {
@@ -224,176 +222,199 @@ function RuleEntry(mContainer, mTemplate) {
     this.nRules = 0;
 
     this.init = (() => {
-        $('#rule_btn_AddRule', this.container).on('click', (e) => {
+        $('#rule_btn_AddRule', this.container).on('click', () => {
             let A = $('#rule_a_change input:checked', this.container).val();
             let B = $('#rule_b_change input:checked', this.container).val();
             if (A && B) {
-                this.addRule(`${A}-${B}`);
+                this.addRule(A, B);
             } else {
                 alert('選項缺失!');
             }
         });
     })();
 
-    this.addRule = (mData) => {
+    this.addRule = (mA, mB) => {
+        console.log('addRule start');
         let tpl = this.template.html();
-        let A = mData.split('-')[0];
-        let B = mData.split('-')[1];
-        this.AllRule['k' + this.nRules] = `${ELEMENT[A]}轉${ELEMENT[B]}`;
-        $('#rule_frame', this.container).append(tpl
-            .replace(/{{nRules}}/g, 'k' + this.nRules)
-            .replace('{{A}}', iconDropTpl(A))
-            .replace('{{B}}', iconDropTpl(B))
+        let iA = iconDropTpl(mA);
+        let iB = iconDropTpl(mB);
+        this.AllRule[`r${this.nRules}`] = `${ELEMENT[mA]}轉${ELEMENT[mB]}`;
+        let node_r = $.parseHTML(tpl
+            .replace('{{A}}', iA)
+            .replace('{{B}}', iB)
         );
-            
-        $(`#btnDelRule${'k' + this.nRules}`).on('click', (e) => {
+        $('#rule_btn_DelRule', node_r).attr('data-key', `r${this.nRules}`).on('click', (e) => {
             $(e.target).closest('.input-group').fadeOut('fast', () => {
-                let key = e.target.id.slice(10);
+                let key = e.target.dataset.key;
                 delete this.AllRule[key];
                 $(e.target).closest('.input-group').remove();
-                if (this.getTag().length == 0) {
+                if (this.getRule().length == 0) {
                     $('#ruletips').fadeIn();
-                    $('#resultarea').html('');
+                    $('#result_frame').html('');
                 } else {
                     resultArea.searchMonster();
                 }
             });
         });
         $('#ruletips').hide();
+        $('#rule_frame', this.container).append(node_r);
         this.nRules++;
         resultArea.searchMonster();
+        console.log('addRule finish');
     };
-    this.getTag = () => {
+    this.getRule = () => {
         return Object.values(this.AllRule);
     };
 }
 
-function ResultArea(mContainer, mTemplate, mControl) {
+let sortEntry = new SortEntry('#sortentry');
+function SortEntry(mContainer) {
+    this.container = $(mContainer);
+    this.AllSorter = {
+        'SortBy': 'number',
+        'SortOrder': 'desc',
+        'SortStyle': 'icon'
+    };
+
+    this.init = (() => {
+        $('#sort_select_by', this.container).on('change', (e) => {
+            this.AllSorter['SortBy'] = e.target.value;
+        });
+        $('#sort_select_order', this.container).on('change', (e) => {
+            this.AllSorter['SortOrder'] = e.target.value;
+        });
+        $('input[name="sort_show"]', this.container).on('change', (e) => {
+            this.AllSorter['SortStyle'] = e.target.value;
+        });
+        $('#sort_btn_submit', this.container).on('click', (e) => {
+            this.container.modal('hide');
+            resultArea.finalPublish();
+        });
+        $('#sort_btn_cancel', this.container).on('click', (e) => {
+            this.container.modal('hide');
+        });
+    })();
+    this.getSorter = () => {
+        return this.AllSorter;
+    };
+}
+let resultArea = new ResultArea('#resultentry', '#result-area-tpl');
+function ResultArea(mContainer, mTemplate) {
     let _this = this;
     this.container = $(mContainer);
-    this.tmpl = $(mTemplate);
-    this.control = $(mControl);
+    this.template = $(mTemplate);
 
-    this.sort = 'number';
-    this.sortorder = 'asc';
-    this.style = 'icon';
     this.searchresult = [];
     this.$collectresult = $();
 
-    this.init = (() => {
-        this.control.find('#resultconfig_sort').on('change', (e) => {
-            this.sort = $(e.target).val();
-            this.finalPublish();
-        });
-        this.control.find('#resultconfig_sortorder').on('change', (e) => {
-            this.sortorder = $(e.target).val();
-            this.finalPublish();
-        });
-        this.control.find('input[name="resultconfig_style"]').on('change', (e) => {
-            this.style = $(e.target).val();
-            this.container.removeClass('style-list').removeClass('style-icon');
-            this.container.addClass('style-' + this.style);
-        });
-    })();
-
-    // SearchMonster from [SkillTag] by {AddRule} export [tag raw data]
+    // SearchMonster from [SkillTag] by {AddRule} export [rule raw data]
     this.searchMonster = () => {
-        let tag = ruleEntry.getTag();
-        if (tag.length) {
+        console.log('searchMonster start');
+        let rule = ruleEntry.getRule();
+        if (rule.length) {
+            let LEN = SKILLTAG.length;
             let mon = [];
-            let tmp = [];
-            for (let i = 0; i < tag.length; i++) {
-                if (i == 0) {
-                    for (let j = 0; j < SKILLTAG.length; j++) {
-                        let item = SKILLTAG[j];
-                        if (new RegExp(tag[i]).test(item['tag'])) {
-                            mon.push(item);
-                        }
+            for (let i = 0; i < LEN; i++) {
+                let R = true;
+                let M = SKILLTAG[i];
+                for (let j = 0; j < rule.length; j++) {
+                    if (R) {
+                        R = new RegExp(rule[j]).test(M['tag']);
+                    } else {
+                        break;
                     }
-                } else {
-                    for (let j = 0; j < mon.length; j++) {
-                        let item = mon[j];
-                        if (new RegExp(tag[i]).test(item['tag'])) {
-                            tmp.push(item);
-                        }
-                    }
-                    mon = tmp;
-                    tmp = [];
                 }
+                if (R) mon.push(M);
             }
             this.searchresult = mon;
             this.collectElement();
         } else {
             this.searchresult = [];
         }
+        console.log('searchMonster finish');
     };
     // CollectElement from [searchresult](tag data) by {searchMonster} export [jquery element array with template]
     this.collectElement = () => {
-            let exlist = $();
-            this.searchresult.forEach((e, i) => {
-                let tmpl = $(this.tmpl.contents()[1]).clone();
-                let M = MONSTER[e['no'] - 1 ];
-                tmpl.attr('data-number', e['no'])
-                tmpl.attr('data-name', M['Name'])
-                    .attr('data-mainattr', M['MainAttribute'])
-                    .attr('data-subattr', M['SubAttribute'])
-                    .attr('data-rare', M['Rare'].replace('★', ''))
-                    .attr('data-skillcdmin', M['ActiveSkillCD'].replace('）', '').split('（')[0])
-                    .attr('data-skillcdmax', M['ActiveSkillCD'].replace('）', '').split('（')[1]);
-                tmpl.find('.resultcardpic').eq(0).addClass(`icon-card icon-card-${('000' + (Math.floor(e['no'] / 100) + ((e['no'] % 100 == 0) ? 0 : 1))).substr(-3)}`);
-                tmpl.find('.resultcardpic').eq(0).addClass(`ic-${('000' + ((e['no'] % 100 == 0) ? '100': e['no'] % 100)).substr(-3)}`);
-                tmpl.find('.resultcardpic').eq(0).addClass('icon-attr');
-                tmpl.find('.resultcardpic').eq(0).addClass(`ia-${M['MainAttribute'].toLowerCase()} ${((M['SubAttribute'] == 'None') ? '' : 'ia-s-' + M['SubAttribute'].toLowerCase())}`);
-                tmpl.find('.resultcardintro').eq(0).html(e['no']);
-                let detail = tmpl.find('.resultcarddetail > div');
-                detail.eq(0).find(' > div').eq(0).html(`No. ${e['no']}`);
+        console.log('collectElement start');
+        let exlist = $();
+        let i = 0, LEN = this.searchresult.length;
+        let timer = setInterval(
+            function goNext() {
+                console.log('collectElement setInterval');
+                if (i >= LEN) {
+                    clearTimeout(timer);
+                    _this.$collectresult = exlist;
+                    _this.finalPublish();
+                    return;
+                }
+                let m = _this.searchresult[i];
+                let M = MONSTER[m['no'] - 1 ];
+                let tpl = _this.template.html();
+                let node_m = $.parseHTML(tpl.trim()
+                    .replace('{{DataNumber}}', m['no'])
+                    .replace('{{DataName}}', M['Name'])
+                    .replace('{{DataRare}}', M['Rare'].replace('★', ''))
+                    .replace('{{DataSkillCDMin}}', M['ActiveSkillCD'].replace('）', '').split('（')[0])
+                    .replace('{{DataSkillCDMax}}', M['ActiveSkillCD'].replace('）', '').split('（')[1])
+                )[0];
+                $('.resultcardpic', node_m).addClass(`icon-card icon-card-${('000' + (Math.floor(m['no'] / 100) + ((m['no'] % 100 == 0) ? 0 : 1))).substr(-3)}`)
+                    .addClass(`ic-${('000' + ((m['no'] % 100 == 0) ? '100': m['no'] % 100)).substr(-3)}`)
+                    .addClass('icon-attr')
+                    .addClass(`ia-${M['MainAttribute'].toLowerCase()} ${((M['SubAttribute'] == 'None') ? '' : 'ia-s-' + M['SubAttribute'].toLowerCase())}`);
+                $('.resultcardintro', node_m).html(m['no']);
+                let detail = $('.resultcarddetail > div', node_m);
+                detail.eq(0).find(' > div').eq(0).html(`No. ${m['no']}`);
                 detail.eq(0).find(' > div').eq(1).html(M['Name']);
                 detail.eq(0).find(' > div').eq(2).html(M['Rare']);
                 detail.eq(1).find(' > div').eq(0).html(M['ActiveSkillName']);
                 detail.eq(1).find(' > div').eq(1).html(M['ActiveSkillCD']);
                 detail.eq(2).find(' > div').eq(0).html(M['ActiveSkillContent']);
                 detail.eq(3).find(' > div').eq(0).html(iconKakuseiTpl(M['Kakusei']));
-                exlist = exlist.add(tmpl);
-            });
-            this.$collectresult = exlist;
-            this.finalPublish();
+                exlist = exlist.add(node_m);
+                i++;
+            },
+            0
+        );
+        console.log('collectElement finish');
     };
     // FinalPublish from [$collectresult](element array) by {collectElement} around {sort} and {filter} to front side
     this.finalPublish = () => {
-        this.container.html('');
+        console.log('finalPublish start');
+        let area = $('#result_frame', this.container).html('');
         if (this.$collectresult.length) {
-            let fn = this.sort;
-            let order = this.sortorder;
+            let sorter = sortEntry.getSorter();
+            area.removeClass('sort-style-icon sort-style-list').addClass('sort-style-' + sorter['SortStyle']);
             let list = this.$collectresult.sort((a, b) => {
-                if (order == 'asc') {
-                    return +a['dataset'][fn] - +b['dataset'][fn];
-                } else if (order == 'desc') {
-                    return +b['dataset'][fn] - +a['dataset'][fn];
+                if (sorter['SortOrder'] == 'asc') {
+                    return +a['dataset'][sorter['SortBy']] - +b['dataset'][sorter['SortBy']];
+                } else if (sorter['SortOrder'] == 'desc') {
+                    return +b['dataset'][sorter['SortBy']] - +a['dataset'][sorter['SortBy']];
                 }
             });
 
-            let i = 0;
+            let i = 0, q = 0;
+            let LEN = list.length;
             let timer = setInterval(
                 function goNext() {
-                    console.log('sett', i);
-                    if (i >= list.length) {
+                    if (i >= LEN) {
                         clearTimeout(timer);
                         return;
                     }
-                    for (i; i < list.length; i++) {
+                    for (i; i < LEN; i++) {
                         let e = list[i];
                         let n = e['dataset']['number'];
                         let M = MONSTER[n - 1];
                         filterEntry.test(M) ? $(e).removeClass('filtered') : $(e).addClass('filtered');
-                        $(e).find('.resultcardintro').html(e['dataset'][fn]);
-                        _this.container.append(e);
+                        $(e).find('.resultcardintro').html(e['dataset'][sorter['SortBy']]);
+                        area.append(e);
                     }
+                    q++;
+                    if (q > 10000) clearTimeout(timer);
                 },
                 0
             );
-
-
         }
+        console.log('finalPublish finish');
     };
 }
 

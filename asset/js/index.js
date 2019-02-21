@@ -250,7 +250,7 @@ function RuleEntry(mContainer, mTemplate) {
                 $(e.target).closest('.input-group').remove();
                 if (this.getRule().length == 0) {
                     $('#ruletips').fadeIn();
-                    $('#result_frame').html('');
+                    resultArea.resetResult();
                 } else {
                     resultArea.searchMonster();
                 }
@@ -307,27 +307,49 @@ function ResultArea(mContainer, mTemplate) {
     this.searchresult = [];
     this.$collectresult = $();
 
+    this.init = (() => {
+        $('#result_empty', this.container).fadeIn();
+        $('#result_loading', this.container).hide();
+        $('#result_frame', this.container).hide().html('');
+    })();
+
     // SearchMonster from [SkillTag] by {AddRule} export [rule raw data]
     this.searchMonster = () => {
         console.log('searchMonster start');
         let rule = ruleEntry.getRule();
         if (rule.length) {
-            let LEN = SKILLTAG.length;
+            $('#result_empty', this.container).hide();
+            $('#result_loading', this.container).fadeIn();
             let mon = [];
-            for (let i = 0; i < LEN; i++) {
-                let R = true;
-                let M = SKILLTAG[i];
-                for (let j = 0; j < rule.length; j++) {
-                    if (R) {
-                        R = new RegExp(rule[j]).test(M['tag']);
-                    } else {
-                        break;
+            let i = 0, LEN = SKILLTAG.length;
+            let timer = setInterval(
+                function goNext() {
+                    console.log('searchMonster setInterval');
+                    if (Object.keys(ruleEntry.AllRule).length == 0) {
+                        clearTimeout(timer);
+                        return console.log('Rule empty');
                     }
-                }
-                if (R) mon.push(M);
-            }
-            this.searchresult = mon;
-            this.collectElement();
+                    if (i >= LEN) {
+                        clearTimeout(timer);
+                        _this.searchresult = mon;
+                        _this.collectElement();
+                        return;
+                    }
+                    for (i; i < LEN; i++) {
+                        let R = true;
+                        let M = SKILLTAG[i];
+                        for (let j = 0; j < rule.length; j++) {
+                            if (R) {
+                                R = new RegExp(rule[j]).test(M['tag']);
+                            } else {
+                                break;
+                            }
+                        }
+                        if (R) mon.push(M);
+                    }
+                },
+                0
+            );
         } else {
             this.searchresult = [];
         }
@@ -341,6 +363,10 @@ function ResultArea(mContainer, mTemplate) {
         let timer = setInterval(
             function goNext() {
                 console.log('collectElement setInterval');
+                if (Object.keys(ruleEntry.AllRule).length == 0) {
+                    clearTimeout(timer);
+                    return console.log('Rule empty');
+                }
                 if (i >= LEN) {
                     clearTimeout(timer);
                     _this.$collectresult = exlist;
@@ -380,7 +406,8 @@ function ResultArea(mContainer, mTemplate) {
     // FinalPublish from [$collectresult](element array) by {collectElement} around {sort} and {filter} to front side
     this.finalPublish = () => {
         console.log('finalPublish start');
-        let area = $('#result_frame', this.container).html('');
+        $('#result_loading', this.container).hide();
+        let area = $('#result_frame', this.container).fadeIn().html('');
         if (this.$collectresult.length) {
             let sorter = sortEntry.getSorter();
             area.removeClass('sort-style-icon sort-style-list').addClass('sort-style-' + sorter['SortStyle']);
@@ -396,18 +423,21 @@ function ResultArea(mContainer, mTemplate) {
             let LEN = list.length;
             let timer = setInterval(
                 function goNext() {
+                    if (Object.keys(ruleEntry.AllRule).length == 0) {
+                        clearTimeout(timer);
+                        return console.log('Rule empty');
+                    }
                     if (i >= LEN) {
                         clearTimeout(timer);
                         return;
                     }
-                    for (i; i < LEN; i++) {
-                        let e = list[i];
-                        let n = e['dataset']['number'];
-                        let M = MONSTER[n - 1];
-                        filterEntry.test(M) ? $(e).removeClass('filtered') : $(e).addClass('filtered');
-                        $(e).find('.resultcardintro').html(e['dataset'][sorter['SortBy']]);
-                        area.append(e);
-                    }
+                    let e = list[i];
+                    let n = e['dataset']['number'];
+                    let M = MONSTER[n - 1];
+                    filterEntry.test(M) ? $(e).removeClass('filtered') : $(e).addClass('filtered');
+                    $(e).find('.resultcardintro').html(e['dataset'][sorter['SortBy']]);
+                    area.append(e);
+                    i++;
                     q++;
                     if (q > 10000) clearTimeout(timer);
                 },
@@ -416,6 +446,11 @@ function ResultArea(mContainer, mTemplate) {
         }
         console.log('finalPublish finish');
     };
+    this.resetResult = () => {
+        $('#result_empty', this.container).fadeIn();
+        $('#result_loading', this.container).hide();
+        $('#result_frame', this.container).hide().html('');
+    }
 }
 
 function iconDropTpl(n) {

@@ -94,16 +94,16 @@ nav #collapseNews {
             transform: translateX(-50%);
             z-index: 3;
             pointer-events: none;
-            &:focus,
-            &:active,
-            &:hover {
-                opacity : 1;
-                /* customizable */
-                margin-bottom: 81px;
-                color: white;
-                background: black;
-                border: 1px solid black;
-            }
+        }
+        &.resultalt:focus::before,
+        &.resultalt:active::before,
+        &.resultalt:hover::before {
+            opacity : 1;
+            /* customizable */
+            margin-bottom: 81px;
+            color: white;
+            background: black;
+            border: 1px solid black;
         }
         &.resultalt::after {
             content : '';
@@ -117,12 +117,12 @@ nav #collapseNews {
             transition: all 0.15s ease;
             transform: translateX(-50%);
             opacity : 0;
-            &:focus,
-            &:active,
-            &:hover {
-                margin-bottom: 74px;
-                opacity : 1;
-            }
+        }
+        &.resultalt:focus::after,
+        &.resultalt:active::after,
+        &.resultalt:hover::after {
+            margin-bottom: 74px;
+            opacity : 1;
         }
     }
 }
@@ -170,6 +170,49 @@ nav #collapseNews {
 }
 
 
+
+.AA-hand-1 {
+    display: inline-block;
+    position: relative;
+    &::before {
+        content: '';
+        animation: changeHand-1 .2s linear infinite alternate;
+    }
+}
+.AA-hand-2 {
+    display: inline-block;
+    position: relative;
+    &::before {
+        content: '';
+        animation: changeHand-2 .2s linear infinite alternate;
+    }
+}
+@keyframes changeHand-1 {
+    0% { content: '」'; }
+    100% { content: '／'; }
+}
+@keyframes changeHand-2 {
+    0% { content: '／'; }
+    100% { content: '」'; }
+}
+.AA-hand-r-1 {
+    display: inline-block;
+    position: relative;
+    transform:scaleX(-1);
+    &::before {
+        content: '';
+        animation: changeHand-1 .2s linear infinite alternate;
+    }
+}
+.AA-hand-r-2 {
+    display: inline-block;
+    position: relative;
+    transform:scaleX(-1);
+    &::before {
+        content: '';
+        animation: changeHand-2 .2s linear infinite alternate;
+    }
+}
 
 /**  loading-ring  **/
 .loading-ring {

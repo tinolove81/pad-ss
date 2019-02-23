@@ -1,6 +1,6 @@
 const ELEMENT = {
-    'none': '(.*)', 'all': '全', 'row': '横', 'col': '縦', 'random': '隨機', 'fire': '火',
-    'water': '水', 'wood': '木', 'light': '光', 'dark': '闇', 'heart': '回復', 'trash': '邪魔', 
+    'none': '(.*)', 'all': '全', 'row': '横', 'col': '縦', 'random': '隨機', 'cross': '十字', 'L': 'L字',
+    'fire': '火',　'water': '水', 'wood': '木', 'light': '光', 'dark': '闇', 'heart': '回復', 'trash': '邪魔', 
     'poison': '毒', 'mpoison': '猛毒', 'bomb': '爆弾'
 };
     
@@ -15,14 +15,33 @@ const KAKUSEI_N = [null,
     "体力キラー", "回復キラー", "進化用キラー", "能力覚醒用キラー", "強化合成用キラー", "売却用キラー", "操作不可耐性", "スキルボイス", 
     "コンボ強化", "ガードブレイク", "追加攻撃", "チームHP強化", "チーム回復強化", "ダメージ無効貫通", "スキルブースト+", "ダンジョンボーナス"
 ];
+let MONSTER;
+let SKILLRULE;
 
 let retry = 0;
 let timestamp;
 
 window.onload = () => {
+    let url1 = 'https://raw.githubusercontent.com/tinolove81/pad-ss/gh-pages/lib/MONSTER-20190223.json';
+    let url2 = 'https://raw.githubusercontent.com/tinolove81/pad-ss/gh-pages/lib/SKILLRULE-20190223.json';
+    $.ajax({
+        'url': url1,
+        'dataType': "json",
+        'success': function (data) {
+            MONSTER = data;
+        }
+    });
+    $.ajax({
+        'url': url2,
+        'dataType': "json",
+        'success': function (data) {
+            SKILLRULE = data;
+        }
+    });
+
     (function loadDefault () {
         if (retry < 10) {
-            if (MONSTER && SKILLTAG) {
+            if (MONSTER && SKILLRULE) {
                 $('.overlay').addClass('d-none');
                 lazyload();
             } else {
@@ -313,7 +332,7 @@ function ResultArea(mContainer, mTemplate) {
         $('#result_frame', this.container).hide().html('');
     })();
 
-    // SearchMonster from [SkillTag] by {AddRule} export [rule raw data]
+    // SearchMonster from [SKILLRULE] by {AddRule} export [rule raw data]
     this.searchMonster = () => {
         console.log('searchMonster start');
         let rule = ruleEntry.getRule();
@@ -321,7 +340,7 @@ function ResultArea(mContainer, mTemplate) {
             $('#result_empty', this.container).hide();
             $('#result_loading', this.container).fadeIn();
             let mon = [];
-            let i = 0, LEN = SKILLTAG.length;
+            let i = 0, LEN = SKILLRULE.length;
             let timer = setInterval(
                 function goNext() {
                     console.log('searchMonster setInterval');
@@ -332,15 +351,19 @@ function ResultArea(mContainer, mTemplate) {
                     if (i >= LEN) {
                         clearTimeout(timer);
                         _this.searchresult = mon;
-                        _this.collectElement();
+                        if (_this.searchresult.length > 0) {
+                            _this.collectElement();
+                        } else {
+                            _this.resetResult();
+                        }
                         return;
                     }
                     for (i; i < LEN; i++) {
                         let R = true;
-                        let M = SKILLTAG[i];
+                        let M = SKILLRULE[i];
                         for (let j = 0; j < rule.length; j++) {
                             if (R) {
-                                R = new RegExp(rule[j]).test(M['tag']);
+                                R = new RegExp(rule[j]).test(M['SkillRule']);
                             } else {
                                 break;
                             }
@@ -373,23 +396,23 @@ function ResultArea(mContainer, mTemplate) {
                     _this.finalPublish();
                     return;
                 }
-                let m = _this.searchresult[i];
-                let M = MONSTER[m['no'] - 1 ];
+                let M = MONSTER[_this.searchresult[i]['Number'] - 1 ];
                 let tpl = _this.template.html();
                 let node_m = $.parseHTML(tpl.trim()
-                    .replace('{{DataNumber}}', m['no'])
+                    .replace('{{DataNumber}}', M['Number'])
                     .replace('{{DataName}}', M['Name'])
                     .replace('{{DataRare}}', M['Rare'].replace('★', ''))
-                    .replace('{{DataSkillCDMin}}', M['ActiveSkillCD'].replace('）', '').split('（')[0])
-                    .replace('{{DataSkillCDMax}}', M['ActiveSkillCD'].replace('）', '').split('（')[1])
+                    .replace('{{DataSkillCDMin}}', M['ActiveSkillCD'].split('/')[0])
+                    .replace('{{DataSkillCDMax}}', M['ActiveSkillCD'].split('/')[1])
                 )[0];
-                $('.resultcardpic', node_m).addClass(`icon-card icon-card-${('000' + (Math.floor(m['no'] / 100) + ((m['no'] % 100 == 0) ? 0 : 1))).substr(-3)}`)
-                    .addClass(`ic-${('000' + ((m['no'] % 100 == 0) ? '100': m['no'] % 100)).substr(-3)}`)
+                $('.resultcardpic', node_m).addClass(`icon-card icon-card-${('000' + (Math.floor(M['Number'] / 100) + ((M['Number'] % 100 == 0) ? 0 : 1))).substr(-3)}`)
+                    .addClass(`ic-${('000' + ((M['Number'] % 100 == 0) ? '100': M['Number'] % 100)).substr(-3)}`)
                     .addClass('icon-attr')
                     .addClass(`ia-${M['MainAttribute'].toLowerCase()} ${((M['SubAttribute'] == 'None') ? '' : 'ia-s-' + M['SubAttribute'].toLowerCase())}`);
-                $('.resultcardintro', node_m).html(m['no']);
+                $('.resultcardasset', node_m).addClass(((M['Assist'] == '○') ? 'icon-card-asset' : ''));
+                $('.resultcardintro', node_m).html(M['Number']);
                 let detail = $('.resultcarddetail > div', node_m);
-                detail.eq(0).find(' > div').eq(0).html(`No. ${m['no']}`);
+                detail.eq(0).find(' > div').eq(0).html(`No. ${M['Number']}`);
                 detail.eq(0).find(' > div').eq(1).html(M['Name']);
                 detail.eq(0).find(' > div').eq(2).html(M['Rare']);
                 detail.eq(1).find(' > div').eq(0).html(M['ActiveSkillName']);
@@ -454,8 +477,8 @@ function ResultArea(mContainer, mTemplate) {
 }
 
 function iconDropTpl(n) {
-    if (n == 'none'||n == 'all'||n == 'row'||n == 'col'||n == 'random') {
-        return `<i class='icon-${n}'></i>`;
+    if (n == 'none'||n == 'all'||n == 'row'||n == 'col'||n == 'random'||n == 'cross'||n == 'L') {
+        return `<i class='icon-text-${n}'></i>`;
     } else {
         return `<i class='icon-drop id-${n}'></i>`;
     }

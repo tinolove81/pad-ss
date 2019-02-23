@@ -3,8 +3,20 @@
     width: 50px;
     height: 50px;
     vertical-align: middle;
-    background-size: 512px 512px;
+    background-size: 512px auto;
 }
+.icon-card-asset {
+    display: inline-block;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 17.5px;
+    height: 20px;
+    background-image: url('../images/MENUPARTS1.PNG');
+    background-position: -353px 0;
+    background-size: 512px auto;
+}
+
 .icon-card-001 { background-image: url('../images/card/CARDS_001.PNG'); }
 .icon-card-002 { background-image: url('../images/card/CARDS_002.PNG'); }
 .icon-card-003 { background-image: url('../images/card/CARDS_003.PNG'); }

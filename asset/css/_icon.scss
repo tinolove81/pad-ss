@@ -13,32 +13,44 @@
     background-position: top left;
     background-size: 24px 24px;
 }
-.icon-none::before {
+.icon-text-unlimited::before {
     content: '不限';
     display: inline-block;
     margin: 2px -2px 0 -2px;
     font-style: normal;
 }
-.icon-all::before {
+.icon-text-all::before {
     content: '全版';
     display: inline-block;
     margin: 2px -2px 0 -2px;
     font-style: normal;
 }
-.icon-row::before {
+.icon-text-row::before {
     content: '横排';
     display: inline-block;
     margin: 2px -2px 0 -2px;
     font-style: normal;
 }
-.icon-col::before {
+.icon-text-col::before {
     content: '縦列';
     display: inline-block;
     margin: 2px -2px 0 -2px;
     font-style: normal;
 }
-.icon-random::before {
+.icon-text-random::before {
     content: '隨機';
+    display: inline-block;
+    margin: 2px -2px 0 -2px;
+    font-style: normal;
+}
+.icon-text-cross::before {
+    content: '十字';
+    display: inline-block;
+    margin: 2px -2px 0 -2px;
+    font-style: normal;
+}
+.icon-text-L::before {
+    content: 'Ｌ字';
     display: inline-block;
     margin: 2px -2px 0 -2px;
     font-style: normal;

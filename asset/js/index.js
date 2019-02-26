@@ -54,7 +54,7 @@ window.onload = () => {
     })();
 }
 
-$('#btnswitchtheme').on('click', (e) => {
+$('#nav_btn_Switchtheme').on('click', (e) => {
     let theme = e.currentTarget.dataset.theme;
     if (theme == 'dark') {
         e.currentTarget.dataset.theme = 'light';
@@ -416,7 +416,7 @@ function ResultArea(mContainer, mTemplate) {
                 detail.eq(0).find(' > div').eq(1).html(M['Name']);
                 detail.eq(0).find(' > div').eq(2).html(M['Rare']);
                 detail.eq(1).find(' > div').eq(0).html(M['ActiveSkillName']);
-                detail.eq(1).find(' > div').eq(1).html(M['ActiveSkillCD']);
+                detail.eq(1).find(' > div').eq(1).html(`Lv.1: ${M['ActiveSkillCD'].split('/')[0]}　Lv.最大: ${M['ActiveSkillCD'].split('/')[1]}`);
                 detail.eq(2).find(' > div').eq(0).html(M['ActiveSkillContent']);
                 detail.eq(3).find(' > div').eq(0).html(iconKakuseiTpl(M['Kakusei']));
                 exlist = exlist.add(node_m);

@@ -191,7 +191,7 @@ function FilterEntry(mContainer) {
     this.test = (mMon) => {
         let M_mainattr = mMon['MainAttribute'];
         let M_subattr = mMon['SubAttribute'];
-        let M_type = [].concat(mMon['type']);
+        let M_type = [].concat(mMon['Type']);
         let M_kakusei = [].concat(mMon['Kakusei']);
         if (this.hasFilter) {
             if (this.AllFilter['MainAttribute'] != 'none' && this.AllFilter['MainAttribute'] != M_mainattr) {
@@ -333,6 +333,7 @@ function ResultArea(mContainer, mTemplate) {
     })();
 
     // SearchMonster from [SKILLRULE] by {AddRule} export [rule raw data]
+    this.searchMonsterTimer;
     this.searchMonster = () => {
         console.log('searchMonster start');
         let rule = ruleEntry.getRule();
@@ -341,15 +342,16 @@ function ResultArea(mContainer, mTemplate) {
             $('#result_loading', this.container).fadeIn();
             let mon = [];
             let i = 0, LEN = SKILLRULE.length;
-            let timer = setInterval(
+            if (_this.searchMonsterTimer) clearTimeout(_this.searchMonsterTimer);
+            _this.searchMonsterTimer = setInterval(
                 function goNext() {
                     console.log('searchMonster setInterval');
                     if (Object.keys(ruleEntry.AllRule).length == 0) {
-                        clearTimeout(timer);
+                        clearTimeout(_this.searchMonsterTimer);
                         return console.log('Rule empty');
                     }
                     if (i >= LEN) {
-                        clearTimeout(timer);
+                        clearTimeout(_this.searchMonsterTimer);
                         _this.searchresult = mon;
                         if (_this.searchresult.length > 0) {
                             _this.collectElement();
@@ -379,19 +381,21 @@ function ResultArea(mContainer, mTemplate) {
         console.log('searchMonster finish');
     };
     // CollectElement from [searchresult](tag data) by {searchMonster} export [jquery element array with template]
+    this.collectElementTimer;
     this.collectElement = () => {
         console.log('collectElement start');
         let exlist = $();
         let i = 0, LEN = this.searchresult.length;
-        let timer = setInterval(
+        if (_this.collectElementTimer) clearTimeout(_this.collectElementTimer);
+        _this.collectElementTimer = setInterval(
             function goNext() {
                 console.log('collectElement setInterval');
                 if (Object.keys(ruleEntry.AllRule).length == 0) {
-                    clearTimeout(timer);
+                    clearTimeout(_this.collectElementTimer);
                     return console.log('Rule empty');
                 }
                 if (i >= LEN) {
-                    clearTimeout(timer);
+                    clearTimeout(_this.collectElementTimer);
                     _this.$collectresult = exlist;
                     _this.finalPublish();
                     return;
@@ -427,6 +431,7 @@ function ResultArea(mContainer, mTemplate) {
         console.log('collectElement finish');
     };
     // FinalPublish from [$collectresult](element array) by {collectElement} around {sort} and {filter} to front side
+    this.finalPublishTimer;
     this.finalPublish = () => {
         console.log('finalPublish start');
         $('#result_loading', this.container).hide();
@@ -444,14 +449,15 @@ function ResultArea(mContainer, mTemplate) {
 
             let i = 0, q = 0;
             let LEN = list.length;
-            let timer = setInterval(
+            if (_this.finalPublishTimer) clearTimeout(_this.finalPublishTimer);
+            _this.finalPublishTimer = setInterval(
                 function goNext() {
                     if (Object.keys(ruleEntry.AllRule).length == 0) {
-                        clearTimeout(timer);
+                        clearTimeout(_this.finalPublishTimer);
                         return console.log('Rule empty');
                     }
                     if (i >= LEN) {
-                        clearTimeout(timer);
+                        clearTimeout(_this.finalPublishTimer);
                         return;
                     }
                     let e = list[i];
@@ -462,7 +468,7 @@ function ResultArea(mContainer, mTemplate) {
                     area.append(e);
                     i++;
                     q++;
-                    if (q > 10000) clearTimeout(timer);
+                    if (q > 10000) clearTimeout(_this.finalPublishTimer);
                 },
                 0
             );

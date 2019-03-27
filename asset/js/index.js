@@ -1,5 +1,5 @@
 const ELEMENT = {
-    'none': '(.*)', 'all': '全', 'row': '横', 'col': '縦', 'random': '隨機', 'cross': '十字', 'L': 'L字',
+    'unlimited': '(.*)', 'all': '全', 'row': '横', 'col': '縦', 'random': '隨機', 'cross': '十字', 'L': 'L字',
     'fire': '火',　'water': '水', 'wood': '木', 'light': '光', 'dark': '闇', 'heart': '回復', 'trash': '邪魔', 
     'poison': '毒', 'mpoison': '猛毒', 'bomb': '爆弾'
 };
@@ -22,8 +22,8 @@ let retry = 0;
 let timestamp;
 
 window.onload = () => {
-    let url1 = 'https://raw.githubusercontent.com/tinolove81/pad-ss/gh-pages/lib/MONSTER-20190223.json';
-    let url2 = 'https://raw.githubusercontent.com/tinolove81/pad-ss/gh-pages/lib/SKILLRULE-20190223.json';
+    let url1 = 'https://raw.githubusercontent.com/tinolove81/pad-ss/gh-pages/lib/MONSTER-20190327.json';
+    let url2 = 'https://raw.githubusercontent.com/tinolove81/pad-ss/gh-pages/lib/SKILLRULE-20190327.json';
     $.ajax({
         'url': url1,
         'dataType': "json",
@@ -340,6 +340,7 @@ function ResultArea(mContainer, mTemplate) {
         if (rule.length) {
             $('#result_empty', this.container).hide();
             $('#result_loading', this.container).fadeIn();
+            $('#result_frame', this.container).hide();
             let mon = [];
             let i = 0, LEN = SKILLRULE.length;
             if (_this.searchMonsterTimer) clearTimeout(_this.searchMonsterTimer);
@@ -483,7 +484,7 @@ function ResultArea(mContainer, mTemplate) {
 }
 
 function iconDropTpl(n) {
-    if (n == 'none'||n == 'all'||n == 'row'||n == 'col'||n == 'random'||n == 'cross'||n == 'L') {
+    if (n == 'unlimited'||n == 'all'||n == 'row'||n == 'col'||n == 'random'||n == 'cross'||n == 'L') {
         return `<i class='icon-text-${n}'></i>`;
     } else {
         return `<i class='icon-drop id-${n}'></i>`;

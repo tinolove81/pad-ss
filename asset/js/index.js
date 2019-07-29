@@ -27,26 +27,26 @@ window.onload = () => {
     $.ajax({
         'url': url1,
         'dataType': "json",
-        'success': function (data) {
+        'success': (data) => {
             MONSTER = data;
         }
     });
     $.ajax({
         'url': url2,
         'dataType': "json",
-        'success': function (data) {
+        'success': (data) => {
             SKILLRULE = data;
         }
     });
 
     (function loadDefault () {
-        if (retry < 10) {
+        if (retry < 5) {
             if (MONSTER && SKILLRULE) {
                 $('.overlay').addClass('d-none');
                 lazyload();
             } else {
                 retry++;
-                setTimeout(loadDefault, 300);
+                setTimeout(loadDefault, 600);
             }
         } else {
             alert('Connect data error.');
@@ -502,7 +502,6 @@ function iconKakuseiTpl(mName) {
     }
     return `<i class='icon-kakusei ik-0'></i>`;
 }
-
 function now(a) {
     if (a == 'u') {
         return Math.round(new Date().getTime() / 1000.0);
